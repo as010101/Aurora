@@ -1,0 +1,899 @@
+<Catalog>
+    <!-- key: 00000000ffffffff -->
+    <BoxTable.row boxId="0" boxType="inputport" label="i0"
+		  modifier="0:0:1:1:0:20" parentId="-1" y="389" width="44"
+		  height="23"/>
+
+    <!-- key: 00000041ffffffff -->
+    <BoxTable.row boxId="65" boxType="outputport" label="o0"
+		  modifier="4:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="111" width="44" height="23"/>
+
+    <!-- key: 00000042ffffffff -->
+    <BoxTable.row boxId="66" boxType="outputport" label="o1"
+		  modifier="5:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="222" width="44" height="23"/>
+
+    <!-- key: 00000043ffffffff -->
+    <BoxTable.row boxId="67" boxType="outputport" label="o2"
+		  modifier="5:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="333" width="44" height="23"/>
+
+    <!-- key: 00000044ffffffff -->
+    <BoxTable.row boxId="68" boxType="outputport" label="o3"
+		  modifier="11:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="444" width="44" height="23"/>
+
+    <!-- key: 00000045ffffffff -->
+    <BoxTable.row boxId="69" boxType="outputport" label="o4"
+		  modifier="5:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="555" width="44" height="23"/>
+
+    <!-- key: 00000046ffffffff -->
+    <BoxTable.row boxId="70" boxType="outputport" label="o5"
+		  modifier="5:1:3|0|0~1|1~1|2~0" parentId="-1" x="1114"
+		  y="666" width="44" height="23"/>
+
+    <!-- key: 00000047ffffffff -->
+    <BoxTable.row boxId="71" boxType="filter" label="splitter"
+		  modifier="1 = 1~DROP" parentId="-1" x="65" y="389"
+		  width="100" height="25"/>
+
+    <!-- key: 00000048ffffffff -->
+    <BoxTable.row boxId="72" boxType="aggregate" label="ACC-AGG1"
+		  modifier="acc1=ACC1AF~:0:i:0:4:~4~TUPLES~1~99999.9~:0:i:8:4:~0~:0:i:4:4:"
+		  parentId="-1" x="92" y="79" width="100" height="25"/>
+
+    <!-- key: 00000049ffffffff -->
+    <BoxTable.row boxId="73" boxType="filter" label="ACC-STOPPEDP"
+		  modifier=":0:i:24:4: = 1~DROP" parentId="-1" x="218"
+		  y="80" width="100" height="25"/>
+
+    <!-- key: 0000004affffffff -->
+    <BoxTable.row boxId="74" boxType="aggregate" label="ACC-AGG2"
+		  modifier="acc2=ACC2AF~:0:i:0:4:~2~TUPLES~1~99999.9~:0:i:4:4:~0~:0:i:8:4:,:0:i:12:4:,:0:i:16:4:"
+		  parentId="-1" x="365" y="74" width="100" height="25"/>
+
+    <!-- key: 0000004bffffffff -->
+    <BoxTable.row boxId="75" boxType="filter" label="ACC-ACCP"
+		  modifier=":0:i:20:4: = 1~DROP" parentId="-1" x="498"
+		  y="74" width="100" height="25"/>
+
+    <!-- key: 0000004cffffffff -->
+    <BoxTable.row boxId="76" boxType="105" label="READ-ACCALERT"
+		  modifier="14"
+		  parentId="-1" x="687" y="49" width="100" height="25"/>
+
+    <!-- key: 0000004dffffffff -->
+    <BoxTable.row boxId="77" boxType="104" label="UPDATEACC"
+		  modifier="4" parentId="-1" x="691" y="116"
+		  width="100" height="25"/>
+
+    <!-- key: 0000004effffffff -->
+    <BoxTable.row boxId="78" boxType="aggregate" label="Aggregate Box 2"
+		  modifier="seg1=SEG1AF~:0:i:0:4:~30~VALUES~60~99999.9~:0:i:8:4:~0~:0:i:12:4:,:0:i:16:4:,:0:i:20:4:"
+		  parentId="-1" x="199" y="390" width="100" height="25"/>
+
+    <!-- key: 0000004fffffffff -->
+    <BoxTable.row boxId="79" boxType="aggregate" label="Aggregate Box 3"
+		  modifier="seg2=SEG2AF~:0:i:0:4:~5~TUPLES~1~99999.9~:0:i:12:4:~0~:0:i:0:4:,:0:i:4:4:,:0:i:8:4:"
+		  parentId="-1" x="324" y="391" width="100" height="25"/>
+
+    <!-- key: 00000050ffffffff -->
+    <BoxTable.row boxId="80" boxType="aggregate" label="Aggregate Box 4"
+		  modifier="seg3=SEG3AF~:0:i:0:4:~4~TUPLES~1~99999.9~:0:i:12:4:~0~:0:i:0:4:,:0:i:4:4:,:0:i:8:4:"
+		  parentId="-1" x="453" y="390" width="100" height="25"/>
+
+    <!-- key: 00000051ffffffff -->
+    <BoxTable.row boxId="81" boxType="105" label="READ-SEG"
+		  modifier="12"
+		  parentId="-1" x="585" y="390" width="100" height="25"/>
+
+    <!-- key: 00000052ffffffff -->
+    <BoxTable.row boxId="82" boxType="filter" label="Filter Box 3"
+		  modifier="OR(:0:i:16:4: > 40, :0:i:28:4: = 1)~PASS"
+		  parentId="-1" x="730" y="399" width="100" height="25"/>
+
+    <!-- key: 00000053ffffffff -->
+    <BoxTable.row boxId="83" boxType="map" label="Map Box 3"
+		  modifier="Attribute0 = :0:i:0:4:,Attribute1 = :0:i:4:4:,Attribute2 = :0:i:8:4:,Attribute3 = :0:i:12:4:,Attribute4 = :0:i:16:4:,Attribute5 = :0:i:20:4:,Attribute6 = :0:i:24:4:,Attribute7 = 0"
+		  parentId="-1" x="873" y="352" width="100" height="25"/>
+
+    <!-- key: 00000054ffffffff -->
+    <BoxTable.row boxId="84" boxType="map" label="Map Box 4"
+		  modifier="Attribute0 = :0:i:0:4:,Attribute1 = :0:i:4:4:,Attribute2 = :0:i:8:4:,Attribute3 = :0:i:12:4:,Attribute4 = :0:i:16:4:,Attribute5 = :0:i:20:4:,Attribute6 = :0:i:24:4:,Attribute7 = 6 * (:0:i:24:4: - 150) * (:0:i:24:4: - 150)"
+		  parentId="-1" x="880" y="439" width="100" height="25"/>
+
+    <!-- key: 00000055ffffffff -->
+    <BoxTable.row boxId="85" boxType="union" label="Union Box 0"
+		  modifier="Union Box 0" parentId="-1" x="996" y="405"
+		  width="100" height="25"/>
+
+    <!-- key: 00000056ffffffff -->
+    <BoxTable.row boxId="86" boxType="104" label="SEG-UPDATE"
+		  modifier="3" parentId="-1" x="1007" y="301"
+		  width="100" height="25"/>
+
+    <!-- key: 00000057ffffffff -->
+    <BoxTable.row boxId="87" boxType="105" label="READPOS"
+		  modifier="13"
+		  parentId="-1" x="149" y="567" width="100" height="25"/>
+
+    <!-- key: 00000058ffffffff -->
+    <BoxTable.row boxId="88" boxType="filter" label="FilterStatus"
+		  modifier=":0:i:48:4: = 0~PASS" parentId="-1" x="291"
+		  y="578" width="100" height="25"/>
+
+    <!-- key: 00000059ffffffff -->
+    <BoxTable.row boxId="89" boxType="105" label="CalcTollNewREAD"
+		  modifier="11"
+		  parentId="-1" x="565" y="495" width="120" height="30"/>
+
+    <!-- key: 0000005affffffff -->
+    <BoxTable.row boxId="90" boxType="map" label="MapNegLtoll"
+		  modifier="car = :0:i:0:4:,time = :0:i:4:4:,lexp = :0:i:8:4:,lseg = :0:i:12:4:,ldir = :0:i:16:4:,ltoll = 0 - 15,exp = 0 - 1,seg = 0 - 1,dir = 0 - 1,lane = 0 - 1,toll = 0"
+		  parentId="-1" x="505" y="597" width="100" height="25"/>
+
+    <!-- key: 0000005bffffffff -->
+    <BoxTable.row boxId="91" boxType="filter" label="Filter Box 5"
+		  modifier="AND(:0:i:28:4: = 1, AND(:0:i:8:4: = :0:i:32:4:, AND(:0:i:12:4: = :0:i:36:4:, :0:i:16:4: = :0:i:40:4:)))~PASS"
+		  parentId="-1" x="401" y="641" width="100" height="25"/>
+
+    <!-- key: 0000005cffffffff -->
+    <BoxTable.row boxId="92" boxType="map" label="MapLtoll"
+		  modifier="car = :0:i:0:4:,time = :0:i:4:4:,lexp = :0:i:8:4:,lseg = :0:i:12:4:,ldir = :0:i:16:4:,ltoll = :0:i:24:4:,exp = 0 - 1,seg = 0 - 1,dir = 0 - 1,lane = 0 - 1,toll = 0"
+		  parentId="-1" x="506" y="687" width="100" height="25"/>
+
+    <!-- key: 0000005dffffffff -->
+    <BoxTable.row boxId="93" boxType="union" label="Union Box 1"
+		  modifier="Union Box 1" parentId="-1" x="623" y="642"
+		  width="100" height="25"/>
+
+    <!-- key: 0000005effffffff -->
+    <BoxTable.row boxId="94" boxType="union" label="Union Box 2"
+		  modifier="Union Box 2" parentId="-1" x="735" y="567"
+		  width="100" height="25"/>
+
+    <!-- key: 0000005fffffffff -->
+    <BoxTable.row boxId="95" boxType="104" label="UpdateAccts"
+		  modifier="1" parentId="-1" x="928" y="539"
+		  width="100" height="25"/>
+
+    <!-- key: 00000060ffffffff -->
+    <BoxTable.row boxId="96" boxType="filter" label="Filter Box 6"
+		  modifier=":0:i:20:4: != 0~DROP" parentId="-1" x="805"
+		  y="666" width="100" height="25"/>
+
+    <!-- key: 00000061ffffffff -->
+    <BoxTable.row boxId="97" boxType="104" label="UpdateDaily"
+		  modifier="2" parentId="-1" x="947" y="665"
+		  width="100" height="25"/>
+
+    <!-- key: 00000000ffffffff -->
+    <ArcTable.row id="0" rate="1" typeId="0" sourceNodeId="0"
+		  targetNodeId="71" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000001ffffffff -->
+    <ArcTable.row id="1" rate="1" typeId="0" sourceNodeId="71"
+		  targetNodeId="72" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000003ffffffff -->
+    <ArcTable.row id="3" rate="1" typeId="2" sourceNodeId="72"
+		  targetNodeId="73" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000004ffffffff -->
+    <ArcTable.row id="4" rate="1" typeId="2" sourceNodeId="73"
+		  targetNodeId="74" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000005ffffffff -->
+    <ArcTable.row id="5" rate="1" typeId="3" sourceNodeId="74"
+		  targetNodeId="75" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000006ffffffff -->
+    <ArcTable.row id="6" rate="1" typeId="3" sourceNodeId="75"
+		  targetNodeId="76" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000007ffffffff -->
+    <ArcTable.row id="7" rate="1" typeId="3" sourceNodeId="75"
+		  targetNodeId="77" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000008ffffffff -->
+    <ArcTable.row id="8" rate="1" typeId="4" sourceNodeId="76"
+		  targetNodeId="65" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000009ffffffff -->
+    <ArcTable.row id="9" rate="1" typeId="5" sourceNodeId="77"
+		  targetNodeId="66" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000affffffff -->
+    <ArcTable.row id="10" rate="1" typeId="0" sourceNodeId="71"
+		  targetNodeId="78" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000bffffffff -->
+    <ArcTable.row id="11" rate="1" typeId="6" sourceNodeId="78"
+		  targetNodeId="79" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000cffffffff -->
+    <ArcTable.row id="12" rate="1" typeId="7" sourceNodeId="79"
+		  targetNodeId="80" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000dffffffff -->
+    <ArcTable.row id="13" rate="1" typeId="8" sourceNodeId="80"
+		  targetNodeId="81" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000effffffff -->
+    <ArcTable.row id="14" rate="1" typeId="9" sourceNodeId="81"
+		  targetNodeId="82" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000000fffffffff -->
+    <ArcTable.row id="15" rate="1" typeId="9" sourceNodeId="82"
+		  targetNodeId="83" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000010ffffffff -->
+    <ArcTable.row id="16" rate="1" typeId="9" sourceNodeId="82"
+		  targetNodeId="84" sourcePortIndex="1" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000011ffffffff -->
+    <ArcTable.row id="17" rate="1" typeId="9" sourceNodeId="83"
+		  targetNodeId="85" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000012ffffffff -->
+    <ArcTable.row id="18" rate="1" typeId="9" sourceNodeId="84"
+		  targetNodeId="85" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000013ffffffff -->
+    <ArcTable.row id="19" rate="1" typeId="9" sourceNodeId="85"
+		  targetNodeId="86" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000014ffffffff -->
+    <ArcTable.row id="20" rate="1" typeId="5" sourceNodeId="86"
+		  targetNodeId="67" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000015ffffffff -->
+    <ArcTable.row id="21" rate="1" typeId="0" sourceNodeId="71"
+		  targetNodeId="87" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000016ffffffff -->
+    <ArcTable.row id="22" rate="1" typeId="10" sourceNodeId="87"
+		  targetNodeId="88" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000017ffffffff -->
+    <ArcTable.row id="23" rate="1" typeId="10" sourceNodeId="88"
+		  targetNodeId="89" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000019ffffffff -->
+    <ArcTable.row id="25" rate="1" typeId="11" sourceNodeId="89"
+		  targetNodeId="68" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001affffffff -->
+    <ArcTable.row id="26" rate="1" typeId="10" sourceNodeId="88"
+		  targetNodeId="91" sourcePortIndex="1" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001bffffffff -->
+    <ArcTable.row id="27" rate="1" typeId="10" sourceNodeId="91"
+		  targetNodeId="90" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001cffffffff -->
+    <ArcTable.row id="28" rate="1" typeId="10" sourceNodeId="91"
+		  targetNodeId="92" sourcePortIndex="1" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001dffffffff -->
+    <ArcTable.row id="29" rate="1" typeId="11" sourceNodeId="90"
+		  targetNodeId="93" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001effffffff -->
+    <ArcTable.row id="30" rate="1" typeId="11" sourceNodeId="92"
+		  targetNodeId="93" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 0000001fffffffff -->
+    <ArcTable.row id="31" rate="1" typeId="11" sourceNodeId="89"
+		  targetNodeId="94" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000020ffffffff -->
+    <ArcTable.row id="32" rate="1" typeId="11" sourceNodeId="93"
+		  targetNodeId="94" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000021ffffffff -->
+    <ArcTable.row id="33" rate="1" typeId="11" sourceNodeId="94"
+		  targetNodeId="95" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000022ffffffff -->
+    <ArcTable.row id="34" rate="1" typeId="5" sourceNodeId="95"
+		  targetNodeId="69" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000023ffffffff -->
+    <ArcTable.row id="35" rate="1" typeId="11" sourceNodeId="94"
+		  targetNodeId="96" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000024ffffffff -->
+    <ArcTable.row id="36" rate="1" typeId="11" sourceNodeId="96"
+		  targetNodeId="97" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 00000025ffffffff -->
+    <ArcTable.row id="37" rate="1" typeId="5" sourceNodeId="97"
+		  targetNodeId="70" sourcePortIndex="0" targetPortIndex="0"
+		  cpFlag="1" parentId="-1"/>
+
+    <!-- key: 000000470000000000000000ffffffff -->
+    <PortTable.row boxId="71" portIndex="0" typeId="0" portType="input"/>
+
+    <!-- key: 000000470000000000000001ffffffff -->
+    <PortTable.row boxId="71" portIndex="0" typeId="0" portType="output"/>
+
+    <!-- key: 000000480000000000000000ffffffff -->
+    <PortTable.row boxId="72" portIndex="0" typeId="0" portType="input"/>
+
+    <!-- key: 000000480000000000000001ffffffff -->
+    <PortTable.row boxId="72" portIndex="0" typeId="2" portType="output"/>
+
+    <!-- key: 000000490000000000000000ffffffff -->
+    <PortTable.row boxId="73" portIndex="0" typeId="2" portType="input"/>
+
+    <!-- key: 000000490000000000000001ffffffff -->
+    <PortTable.row boxId="73" portIndex="0" typeId="2" portType="output"/>
+
+    <!-- key: 0000004a0000000000000000ffffffff -->
+    <PortTable.row boxId="74" portIndex="0" typeId="2" portType="input"/>
+
+    <!-- key: 0000004a0000000000000001ffffffff -->
+    <PortTable.row boxId="74" portIndex="0" typeId="3" portType="output"/>
+
+    <!-- key: 0000004b0000000000000000ffffffff -->
+    <PortTable.row boxId="75" portIndex="0" typeId="3" portType="input"/>
+
+    <!-- key: 0000004b0000000000000001ffffffff -->
+    <PortTable.row boxId="75" portIndex="0" typeId="3" portType="output"/>
+
+    <!-- key: 0000004c0000000000000000ffffffff -->
+    <PortTable.row boxId="76" portIndex="0" typeId="3" portType="input"/>
+
+    <!-- key: 0000004c0000000000000001ffffffff -->
+    <PortTable.row boxId="76" portIndex="0" typeId="4" portType="output"/>
+
+    <!-- key: 0000004d0000000000000000ffffffff -->
+    <PortTable.row boxId="77" portIndex="0" typeId="3" portType="input"/>
+
+    <!-- key: 0000004d0000000000000001ffffffff -->
+    <PortTable.row boxId="77" portIndex="0" typeId="5" portType="output"/>
+
+    <!-- key: 0000004e0000000000000000ffffffff -->
+    <PortTable.row boxId="78" portIndex="0" typeId="0" portType="input"/>
+
+    <!-- key: 0000004e0000000000000001ffffffff -->
+    <PortTable.row boxId="78" portIndex="0" typeId="6" portType="output"/>
+
+    <!-- key: 0000004f0000000000000000ffffffff -->
+    <PortTable.row boxId="79" portIndex="0" typeId="6" portType="input"/>
+
+    <!-- key: 0000004f0000000000000001ffffffff -->
+    <PortTable.row boxId="79" portIndex="0" typeId="7" portType="output"/>
+
+    <!-- key: 000000500000000000000000ffffffff -->
+    <PortTable.row boxId="80" portIndex="0" typeId="7" portType="input"/>
+
+    <!-- key: 000000500000000000000001ffffffff -->
+    <PortTable.row boxId="80" portIndex="0" typeId="8" portType="output"/>
+
+    <!-- key: 000000510000000000000000ffffffff -->
+    <PortTable.row boxId="81" portIndex="0" typeId="8" portType="input"/>
+
+    <!-- key: 000000510000000000000001ffffffff -->
+    <PortTable.row boxId="81" portIndex="0" typeId="9" portType="output"/>
+
+    <!-- key: 000000520000000000000000ffffffff -->
+    <PortTable.row boxId="82" portIndex="0" typeId="9" portType="input"/>
+
+    <!-- key: 000000520000000000000001ffffffff -->
+    <PortTable.row boxId="82" portIndex="0" typeId="9" portType="output"/>
+
+    <!-- key: 000000520000000100000001ffffffff -->
+    <PortTable.row boxId="82" portIndex="1" typeId="9" portType="output"/>
+
+    <!-- key: 000000530000000000000000ffffffff -->
+    <PortTable.row boxId="83" portIndex="0" typeId="9" portType="input"/>
+
+    <!-- key: 000000530000000000000001ffffffff -->
+    <PortTable.row boxId="83" portIndex="0" typeId="9" portType="output"/>
+
+    <!-- key: 000000540000000000000000ffffffff -->
+    <PortTable.row boxId="84" portIndex="0" typeId="9" portType="input"/>
+
+    <!-- key: 000000540000000000000001ffffffff -->
+    <PortTable.row boxId="84" portIndex="0" typeId="9" portType="output"/>
+
+    <!-- key: 000000550000000000000000ffffffff -->
+    <PortTable.row boxId="85" portIndex="0" typeId="9" portType="input"/>
+
+    <!-- key: 000000550000000000000001ffffffff -->
+    <PortTable.row boxId="85" portIndex="0" typeId="9" portType="output"/>
+
+    <!-- key: 000000560000000000000000ffffffff -->
+    <PortTable.row boxId="86" portIndex="0" typeId="9" portType="input"/>
+
+    <!-- key: 000000560000000000000001ffffffff -->
+    <PortTable.row boxId="86" portIndex="0" typeId="5" portType="output"/>
+
+    <!-- key: 000000570000000000000000ffffffff -->
+    <PortTable.row boxId="87" portIndex="0" typeId="0" portType="input"/>
+
+    <!-- key: 000000570000000000000001ffffffff -->
+    <PortTable.row boxId="87" portIndex="0" typeId="10" portType="output"/>
+
+    <!-- key: 000000580000000000000000ffffffff -->
+    <PortTable.row boxId="88" portIndex="0" typeId="10" portType="input"/>
+
+    <!-- key: 000000580000000000000001ffffffff -->
+    <PortTable.row boxId="88" portIndex="0" typeId="10" portType="output"/>
+
+    <!-- key: 000000580000000100000001ffffffff -->
+    <PortTable.row boxId="88" portIndex="1" typeId="10" portType="output"/>
+
+    <!-- key: 000000590000000000000000ffffffff -->
+    <PortTable.row boxId="89" portIndex="0" typeId="10" portType="input"/>
+
+    <!-- key: 000000590000000000000001ffffffff -->
+    <PortTable.row boxId="89" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 0000005a0000000000000000ffffffff -->
+    <PortTable.row boxId="90" portIndex="0" typeId="10" portType="input"/>
+
+    <!-- key: 0000005a0000000000000001ffffffff -->
+    <PortTable.row boxId="90" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 0000005b0000000000000000ffffffff -->
+    <PortTable.row boxId="91" portIndex="0" typeId="10" portType="input"/>
+
+    <!-- key: 0000005b0000000000000001ffffffff -->
+    <PortTable.row boxId="91" portIndex="0" typeId="10" portType="output"/>
+
+    <!-- key: 0000005b0000000100000001ffffffff -->
+    <PortTable.row boxId="91" portIndex="1" typeId="10" portType="output"/>
+
+    <!-- key: 0000005c0000000000000000ffffffff -->
+    <PortTable.row boxId="92" portIndex="0" typeId="10" portType="input"/>
+
+    <!-- key: 0000005c0000000000000001ffffffff -->
+    <PortTable.row boxId="92" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 0000005d0000000000000000ffffffff -->
+    <PortTable.row boxId="93" portIndex="0" typeId="11" portType="input"/>
+
+    <!-- key: 0000005d0000000000000001ffffffff -->
+    <PortTable.row boxId="93" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 0000005e0000000000000000ffffffff -->
+    <PortTable.row boxId="94" portIndex="0" typeId="11" portType="input"/>
+
+    <!-- key: 0000005e0000000000000001ffffffff -->
+    <PortTable.row boxId="94" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 0000005f0000000000000000ffffffff -->
+    <PortTable.row boxId="95" portIndex="0" typeId="11" portType="input"/>
+
+    <!-- key: 0000005f0000000000000001ffffffff -->
+    <PortTable.row boxId="95" portIndex="0" typeId="5" portType="output"/>
+
+    <!-- key: 000000600000000000000000ffffffff -->
+    <PortTable.row boxId="96" portIndex="0" typeId="11" portType="input"/>
+
+    <!-- key: 000000600000000000000001ffffffff -->
+    <PortTable.row boxId="96" portIndex="0" typeId="11" portType="output"/>
+
+    <!-- key: 000000610000000000000000ffffffff -->
+    <PortTable.row boxId="97" portIndex="0" typeId="11" portType="input"/>
+
+    <!-- key: 000000610000000000000001ffffffff -->
+    <PortTable.row boxId="97" portIndex="0" typeId="5" portType="output"/>
+
+    <!-- key: 00000000 -->
+    <CompositeType.row typeId="0" typeName="inputtype" numberOfFields="8"/>
+
+    <!-- key: 00000004 -->
+    <CompositeType.row typeId="4" typeName="" numberOfFields="4"/>
+
+    <!-- key: 00000008 -->
+    <CompositeType.row typeId="8" typeName="" numberOfFields="7"/>
+
+    <!-- key: 0000000f -->
+    <CompositeType.row typeId="15" typeName="" numberOfFields="6"/>
+
+    <!-- key: 00000019 -->
+    <CompositeType.row typeId="25" typeName="" numberOfFields="4"/>
+
+    <!-- key: 00000021 -->
+    <CompositeType.row typeId="33" typeName="" numberOfFields="1"/>
+
+    <!-- key: 00000033 -->
+    <CompositeType.row typeId="51" typeName="" numberOfFields="6"/>
+
+    <!-- key: 0000003f -->
+    <CompositeType.row typeId="63" typeName="" numberOfFields="6"/>
+
+    <!-- key: 0000004d -->
+    <CompositeType.row typeId="77" typeName="" numberOfFields="7"/>
+
+    <!-- key: 0000005d -->
+    <CompositeType.row typeId="93" typeName="" numberOfFields="8"/>
+
+    <!-- key: 000000ec -->
+    <CompositeType.row typeId="236" typeName="" numberOfFields="13"/>
+
+    <!-- key: 0000012f -->
+    <CompositeType.row typeId="303" typeName="" numberOfFields="11"/>
+
+    <!-- key: 0000000000000000 -->
+    <TypeField.row typeId="0" attributeIndex="0" attributeName="type"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000000000000001 -->
+    <TypeField.row typeId="0" attributeIndex="1" attributeName="car"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000000000000002 -->
+    <TypeField.row typeId="0" attributeIndex="2" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000000000000003 -->
+    <TypeField.row typeId="0" attributeIndex="3" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000000000000004 -->
+    <TypeField.row typeId="0" attributeIndex="4" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000000000000005 -->
+    <TypeField.row typeId="0" attributeIndex="5" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000000000000006 -->
+    <TypeField.row typeId="0" attributeIndex="6" attributeName="lane"
+		   attributeTypeId="-1" attributeSize="4" offset="24"/>
+
+    <!-- key: 0000000000000007 -->
+    <TypeField.row typeId="0" attributeIndex="7" attributeName="speed"
+		   attributeTypeId="-1" attributeSize="4" offset="28"/>
+
+    <!-- key: 0000000400000000 -->
+    <TypeField.row typeId="4" attributeIndex="0" attributeName="car"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000000400000001 -->
+    <TypeField.row typeId="4" attributeIndex="1" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000000400000002 -->
+    <TypeField.row typeId="4" attributeIndex="2" attributeName="acc1.0"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000000400000003 -->
+    <TypeField.row typeId="4" attributeIndex="3" attributeName="acc1.1"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000000800000000 -->
+    <TypeField.row typeId="8" attributeIndex="0" attributeName="car"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000000800000001 -->
+    <TypeField.row typeId="8" attributeIndex="1" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000000800000002 -->
+    <TypeField.row typeId="8" attributeIndex="2" attributeName="acc1.0"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000000800000003 -->
+    <TypeField.row typeId="8" attributeIndex="3" attributeName="acc1.1"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000000800000004 -->
+    <TypeField.row typeId="8" attributeIndex="4" attributeName="acc1.2"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000000800000005 -->
+    <TypeField.row typeId="8" attributeIndex="5" attributeName="acc1.3"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000000800000006 -->
+    <TypeField.row typeId="8" attributeIndex="6" attributeName="acc1.4"
+		   attributeTypeId="-1" attributeSize="4" offset="24"/>
+
+    <!-- key: 0000000f00000000 -->
+    <TypeField.row typeId="15" attributeIndex="0" attributeName="acc1.0"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000000f00000001 -->
+    <TypeField.row typeId="15" attributeIndex="1" attributeName="acc1.1"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000000f00000002 -->
+    <TypeField.row typeId="15" attributeIndex="2" attributeName="acc1.2"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000000f00000003 -->
+    <TypeField.row typeId="15" attributeIndex="3" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000000f00000004 -->
+    <TypeField.row typeId="15" attributeIndex="4" attributeName="acc2.0"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000000f00000005 -->
+    <TypeField.row typeId="15" attributeIndex="5" attributeName="acc2.1"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000001900000000 -->
+    <TypeField.row typeId="25" attributeIndex="0"
+		   attributeName="Attribute0" attributeTypeId="-1"
+		   attributeSize="4" offset="0"/>
+
+    <!-- key: 0000001900000001 -->
+    <TypeField.row typeId="25" attributeIndex="1"
+		   attributeName="Attribute1" attributeTypeId="-1"
+		   attributeSize="4" offset="4"/>
+
+    <!-- key: 0000001900000002 -->
+    <TypeField.row typeId="25" attributeIndex="2"
+		   attributeName="Attribute2" attributeTypeId="-1"
+		   attributeSize="4" offset="8"/>
+
+    <!-- key: 0000001900000003 -->
+    <TypeField.row typeId="25" attributeIndex="3"
+		   attributeName="Attribute3" attributeTypeId="-1"
+		   attributeSize="4" offset="12"/>
+
+    <!-- key: 0000002100000000 -->
+    <TypeField.row typeId="33" attributeIndex="0"
+		   attributeName="Attribute0" attributeTypeId="-1"
+		   attributeSize="4" offset="0"/>
+
+    <!-- key: 0000003300000000 -->
+    <TypeField.row typeId="51" attributeIndex="0" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000003300000001 -->
+    <TypeField.row typeId="51" attributeIndex="1" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000003300000002 -->
+    <TypeField.row typeId="51" attributeIndex="2" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000003300000003 -->
+    <TypeField.row typeId="51" attributeIndex="3" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000003300000004 -->
+    <TypeField.row typeId="51" attributeIndex="4" attributeName="seg1.0"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000003300000005 -->
+    <TypeField.row typeId="51" attributeIndex="5" attributeName="seg1.1"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000003f00000000 -->
+    <TypeField.row typeId="63" attributeIndex="0" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000003f00000001 -->
+    <TypeField.row typeId="63" attributeIndex="1" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000003f00000002 -->
+    <TypeField.row typeId="63" attributeIndex="2" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000003f00000003 -->
+    <TypeField.row typeId="63" attributeIndex="3" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000003f00000004 -->
+    <TypeField.row typeId="63" attributeIndex="4" attributeName="seg2.0"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000003f00000005 -->
+    <TypeField.row typeId="63" attributeIndex="5" attributeName="seg2.1"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000004d00000000 -->
+    <TypeField.row typeId="77" attributeIndex="0" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000004d00000001 -->
+    <TypeField.row typeId="77" attributeIndex="1" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000004d00000002 -->
+    <TypeField.row typeId="77" attributeIndex="2" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000004d00000003 -->
+    <TypeField.row typeId="77" attributeIndex="3" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000004d00000004 -->
+    <TypeField.row typeId="77" attributeIndex="4" attributeName="seg3.0"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000004d00000005 -->
+    <TypeField.row typeId="77" attributeIndex="5" attributeName="seg3.1"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000004d00000006 -->
+    <TypeField.row typeId="77" attributeIndex="6" attributeName="seg3.2"
+		   attributeTypeId="-1" attributeSize="4" offset="24"/>
+
+    <!-- key: 0000005d00000000 -->
+    <TypeField.row typeId="93" attributeIndex="0"
+		   attributeName="Attribute0" attributeTypeId="-1"
+		   attributeSize="4" offset="0"/>
+
+    <!-- key: 0000005d00000001 -->
+    <TypeField.row typeId="93" attributeIndex="1"
+		   attributeName="Attribute1" attributeTypeId="-1"
+		   attributeSize="4" offset="4"/>
+
+    <!-- key: 0000005d00000002 -->
+    <TypeField.row typeId="93" attributeIndex="2"
+		   attributeName="Attribute2" attributeTypeId="-1"
+		   attributeSize="4" offset="8"/>
+
+    <!-- key: 0000005d00000003 -->
+    <TypeField.row typeId="93" attributeIndex="3"
+		   attributeName="Attribute3" attributeTypeId="-1"
+		   attributeSize="4" offset="12"/>
+
+    <!-- key: 0000005d00000004 -->
+    <TypeField.row typeId="93" attributeIndex="4"
+		   attributeName="Attribute4" attributeTypeId="-1"
+		   attributeSize="4" offset="16"/>
+
+    <!-- key: 0000005d00000005 -->
+    <TypeField.row typeId="93" attributeIndex="5"
+		   attributeName="Attribute5" attributeTypeId="-1"
+		   attributeSize="4" offset="20"/>
+
+    <!-- key: 0000005d00000006 -->
+    <TypeField.row typeId="93" attributeIndex="6"
+		   attributeName="Attribute6" attributeTypeId="-1"
+		   attributeSize="4" offset="24"/>
+
+    <!-- key: 0000005d00000007 -->
+    <TypeField.row typeId="93" attributeIndex="7"
+		   attributeName="Attribute7" attributeTypeId="-1"
+		   attributeSize="4" offset="28"/>
+
+    <!-- key: 000000ec00000000 -->
+    <TypeField.row typeId="236" attributeIndex="0" attributeName="car"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 000000ec00000001 -->
+    <TypeField.row typeId="236" attributeIndex="1" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 000000ec00000002 -->
+    <TypeField.row typeId="236" attributeIndex="2" attributeName="lexp"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 000000ec00000003 -->
+    <TypeField.row typeId="236" attributeIndex="3" attributeName="lseg"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 000000ec00000004 -->
+    <TypeField.row typeId="236" attributeIndex="4" attributeName="ldir"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 000000ec00000005 -->
+    <TypeField.row typeId="236" attributeIndex="5" attributeName="llane"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 000000ec00000006 -->
+    <TypeField.row typeId="236" attributeIndex="6" attributeName="ltoll"
+		   attributeTypeId="-1" attributeSize="4" offset="24"/>
+
+    <!-- key: 000000ec00000007 -->
+    <TypeField.row typeId="236" attributeIndex="7" attributeName="acc"
+		   attributeTypeId="-1" attributeSize="4" offset="28"/>
+
+    <!-- key: 000000ec00000008 -->
+    <TypeField.row typeId="236" attributeIndex="8" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="32"/>
+
+    <!-- key: 000000ec00000009 -->
+    <TypeField.row typeId="236" attributeIndex="9" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="36"/>
+
+    <!-- key: 000000ec0000000a -->
+    <TypeField.row typeId="236" attributeIndex="10" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="40"/>
+
+    <!-- key: 000000ec0000000b -->
+    <TypeField.row typeId="236" attributeIndex="11" attributeName="lane"
+		   attributeTypeId="-1" attributeSize="4" offset="44"/>
+
+    <!-- key: 000000ec0000000c -->
+    <TypeField.row typeId="236" attributeIndex="12" attributeName="status"
+		   attributeTypeId="-1" attributeSize="4" offset="48"/>
+
+    <!-- key: 0000012f00000000 -->
+    <TypeField.row typeId="303" attributeIndex="0" attributeName="car"
+		   attributeTypeId="-1" attributeSize="4" offset="0"/>
+
+    <!-- key: 0000012f00000001 -->
+    <TypeField.row typeId="303" attributeIndex="1" attributeName="time"
+		   attributeTypeId="-1" attributeSize="4" offset="4"/>
+
+    <!-- key: 0000012f00000002 -->
+    <TypeField.row typeId="303" attributeIndex="2" attributeName="lexp"
+		   attributeTypeId="-1" attributeSize="4" offset="8"/>
+
+    <!-- key: 0000012f00000003 -->
+    <TypeField.row typeId="303" attributeIndex="3" attributeName="lseg"
+		   attributeTypeId="-1" attributeSize="4" offset="12"/>
+
+    <!-- key: 0000012f00000004 -->
+    <TypeField.row typeId="303" attributeIndex="4" attributeName="ldir"
+		   attributeTypeId="-1" attributeSize="4" offset="16"/>
+
+    <!-- key: 0000012f00000005 -->
+    <TypeField.row typeId="303" attributeIndex="5" attributeName="ltoll"
+		   attributeTypeId="-1" attributeSize="4" offset="20"/>
+
+    <!-- key: 0000012f00000006 -->
+    <TypeField.row typeId="303" attributeIndex="6" attributeName="exp"
+		   attributeTypeId="-1" attributeSize="4" offset="24"/>
+
+    <!-- key: 0000012f00000007 -->
+    <TypeField.row typeId="303" attributeIndex="7" attributeName="seg"
+		   attributeTypeId="-1" attributeSize="4" offset="28"/>
+
+    <!-- key: 0000012f00000008 -->
+    <TypeField.row typeId="303" attributeIndex="8" attributeName="dir"
+		   attributeTypeId="-1" attributeSize="4" offset="32"/>
+
+    <!-- key: 0000012f00000009 -->
+    <TypeField.row typeId="303" attributeIndex="9" attributeName="lane"
+		   attributeTypeId="-1" attributeSize="4" offset="36"/>
+
+    <!-- key: 0000012f0000000a -->
+    <TypeField.row typeId="303" attributeIndex="10" attributeName="toll"
+		   attributeTypeId="-1" attributeSize="4" offset="40"/>
+
+    <!-- key: 00000000 -->
+    <Metadata.row max_lowerBoxId="1" max_upperBoxId="98"/>
+
+</Catalog>

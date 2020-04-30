@@ -1,0 +1,328 @@
+
+This file contains the following information:
+
+1 How to use the Workload Generator
+2 How to use the wlgen 
+3 How to use the wlrec 
+4 How to use the arec 
+5 How to use the GUI 
+7 What are the distributions 
+6 How to write configuration files 
+
+
+*****************************************************************
+            How to use the Workload Generator Package
+*****************************************************************
+
+1 Compile files under
+  aurora/loadgen/wlgen/src
+
+2 Three executable files will be generated under
+  aurora/loadgen/wlgen/bin
+  They are
+  
+  wlgen:   The workload generator
+  wlrec:   A test program that can receive data from the workload 
+           generator. You can see what data are generated.
+  arec:    If you use Aurora Socket API, this program can receive 
+           data from Aurora.
+
+*****************************************************************
+                    How to use the wlgen 
+*****************************************************************
+
+1 Usage
+  wlgen [aurora_input_server_name aurora_input_server_port] [workload_generator_server_port]
+
+2 wlgen can take 0 parameters, 2 parameters or 3 parameters.
+
+  If 0 parameters is used, the load generator will use 
+  "localhost 16000" as the default Aurora data receiver address
+  "15000" as the default port to receive command from the GUI
+
+3 After you ran wlgen, there will be a menu of the command it accept.
+  You can type "h" any time to see the menu.
+
+4 After the workload generator is running, it can take commands from 
+  the GUI.
+
+5 The load generator can also read a configuration file that specified 
+  the feature of the load generated. 
+  The instruction of how to write the configuration file is at the 
+  end of this document.
+
+
+*****************************************************************
+                    How to use the wlrec 
+*****************************************************************
+1 wlrec can receive data from workload generator and display them
+
+2 Usage
+  wlrec [receiver_port num_handler_threads]
+
+3 If 0 parameter is used the default port is "16000"
+  num_handler_threads specify how many TCP connection it can handle
+  at the same time
+
+4 It can read the same configuration file that the workload generator
+  used to read in the schemas of the data.
+
+5 Please see the menu for the meaning of the commands
+
+
+*****************************************************************
+                    How to use the arec 
+*****************************************************************
+
+1 arec can receive data from Aurora and display them
+
+2 Usage 
+  arec [aurora_output_server_name aurora_output_server_port]
+
+3 Please see the menu for the meaning of the commands
+  Note: An output port name can be added using command "a" each time.
+        Data will only be received from Aurora after command "c"
+        is used.
+
+
+*****************************************************************
+                How to use the GUI 
+*****************************************************************
+In the GUI, for each selected input port, you can right click
+on that port.
+
+Choose "Use workload generator"
+
+In the GUI, you can specify the following thing:
+* Rate Options 
+* Number of Streams
+* Number of Tuples
+* Attribute Variance Options
+
+#################
+Rate Options 
+#################
+
+Here you can specify the distribution for the tuple inter-arrival time.
+
+First choose a distribution type, eg, Constant.
+This distribution type has some parameters, eg, constant value 
+for Constant distribution.
+
+We want different streams to be able to use different parameters,
+Thus, we use a distribution to specify each of the parameters.
+
+For example, if we want to have two stream with periodical rate of
+different period, we can use
+Constant as the rate type. There are one parameter for this
+distribution, which is the constant value.
+Then we can use the uniform distribution to specify this constant
+parameter. Then period of each of the stream will be a constant 
+from a specified uniform distribution.
+
+
+##################################
+Attribute Variance Options 
+##################################
+The configuration for each of the Attribute is similar 
+to the rate configuration.
+
+Each Attribute has a distribution type. 
+This type will have some parameters.
+Each parameter is also specified by a distribution.
+
+The reason for using a distribution to specify each of the parameters is
+that we want different streams to be able to use different parameters.
+For example, if we want to have 10 streams with random walk distribution, 
+and each of them shall start from a different location.
+Then we can use uniform distribution on the initial values for the 
+random walks and constant distributions on the other parameters.
+
+*****************************************************************
+               What are the distributions
+*****************************************************************
+
+Distributions:
+
+0 : CONSTANT, 
+1 : UNIFORM, 
+2 : NORMAL, 
+3 : EXPONENTIAL,
+4 : LINEAR,
+5 : RANDOMWALK,
+6 : RANDOMDIRECTIONWALK,
+7 : TIMESTAMP
+
+
+Parameters for each distribution:
+
+   CONSTANT	: constant_value
+   UNIFORM	: lower_bound, upper_bound
+   NORMAL	: mean, standard_deviation
+   EXPONENTIAL  : mean
+   LINEAR	: initial_value, step, lower_bound, upper_bound
+   RANDOMWALK	: initial_value, step, probability, lower_bound, upper_bound
+   RANDOMDIRECTIONWALK: initial_value, step, probability, 
+                      :  lower_bound, upper_bound  
+
+LINEAR: 
+  The step is incremental per second.
+  If the value increase higher than upper_bound, the value
+  will be reset to lower_bound.
+  If the value decrease lower than lower_bound, the value
+  will be reset to upper_bound.
+  eg. 123412341234 ...
+
+RANDOMWALK:
+  In each step, the value increase or decrease according to
+  some probability. 
+  The "probability" parameter is the probability that the value 
+  "increase" according to the value of the step.
+  The "step" parameter is the speed of increment per second.
+  After the value reach the boundary, it will change directions.
+
+RANDOMDIRECTIONWALK:
+  In each step, the direction is changed according to the 
+  some probability. 
+  The "probability" parameter is the probability that the 
+  direction do not change.
+  If the direction changes, the increment will the "step" per
+  second.  Otherwise, "step" is set to be "-step".
+  After the value reach the boundary, it will change directions.
+
+*****************************************************************
+                How to write configuration files 
+*****************************************************************
+
+In the configuration file, you need to specify the following thing:
+-----------------------------------------------------------
+Aggregate Stream Integer ID (this shall be the input port)
+Aggregate Stream String ID
+Number of Streams
+Number of Tuples
+
+Rate Configurations (explained below)
+
+Number of Attributes (eg k)
+
+Configurations for attributes 1 (explained below)
+   ...
+Configurations for attributes k (explained below)
+-----------------------------------------------------------
+
+########################
+Rate Configuration
+########################
+Rate Configuration contains the configuration for inter arrival 
+times. This inter-arrival time is specified by a distribution.
+For example, if the distribution is a constant, the the 
+rate is periodic. If the distribution is a exponential distributed
+the the inter-arrival time is exponential.
+
+Thus in Rate configuration, you need to first specify the 
+distribution type of the inter-arrival time, then specify the 
+parameters of these distributions.
+
+We want different streams to be able to use different parameters,
+Thus, we use a distribution to specify each of the parameters.
+
+For example, if we want to have two stream with periodical rate of
+different period, we can use
+CONSTANT as the rate type. There are one parameter for this
+distribution, which is the constant value.
+Then we can use the uniform distribution to specify this constant
+parameter. Then period of each of the stream will be a constant 
+from a specified uniform distribution.
+
+Thus, in rate type, what we need to specify is:
+---------------------------------------------------------
+Rate distribution type
+Number of parameters for rate distribution type (eg n)
+     Distribution type for parameter 1
+     Number of parameters for this distribution (eg m)
+     Parameter 1 
+        ...
+     Parameter m
+
+                      ....
+
+     Distribution type for parameter n
+     Number of parameters for this distribution (eg k)
+     Parameter 1 
+        ...
+     Parameter k
+---------------------------------------------------------
+
+########################
+Attribute Configuration
+########################
+
+The configuration for each of the Attribute is similar 
+to the rate configuration.
+
+Each Attribute has a distribution type. 
+This type will have some parameters.
+Each parameter is also specified by a distribution.
+
+The reason for using a distribution to specify each of the parameters is
+that we want different streams to be able to use different parameters.
+For example, if we want to have 10 streams with random walk distribution, 
+and each of them shall start from a different location.
+Then we can use uniform distribution on the initial values for the 
+random walks and constant distributions on the other parameters.
+
+
+Thus, for each attribute, we need to specify:
+---------------------------------------------------------
+Attribute distribution type
+Number of parameters for attribute distribution type (eg n)
+     Distribution type for parameter 1
+     Number of parameters for this distribution (eg m)
+     Parameter 1 
+        ...
+     Parameter m
+
+                      ....
+
+     Distribution type for parameter n
+     Number of parameters for this distribution (eg k)
+     Parameter 1 
+        ...
+     Parameter k
+---------------------------------------------------------
+
+
+########################
+Example files
+########################
+
+There are a lot of example files under 
+aurora/loadgen/wlgen/src/agg_file_examples/
+
+You can copy can change those files for you own needs.
+The format of the configuration files are written at the end of
+each of the example files. 
+
+##################################################
+The configuration file generated by the GUI
+##################################################
+
+The GUI will also generate configuration files with the same format.
+They are under directory
+aurora/catalogmgr/YOUR_CATALOG_NAME/wg/
+
+The files are wg_*.wgf
+
+
+
+
+
+
+
+
+
+
+
+
+
+

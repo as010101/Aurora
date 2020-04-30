@@ -1,0 +1,63 @@
+HOW TO ADD BOXES TO AURORA
+Based on an email by Eddie Galvez (eddie@cs.brandeis.edu)
+Revised by Richard Tibbetts (tibbetts@mit.edu)
+
+Good contacts for box adding:
+  eddie@cs.brandeis.edu, anurag@cs.brandeis.edu, tibbetts@mit.edu
+
+On to the document:
+
+To add an operator, let's assume your op is called "Myop"
+
+CATALOG MANAGER
+
+Create MyopBox.C|H in catalogmgr/src ; extending Box. This is the object
+that the catalogmgr instantiates and KEEPS RESIDENT in memory, so if you box
+has "state" you have to keep it in this object. See AggregateBox, JoinBox,
+BSortBox for how we do this. See FilterBox for a minimum box implementation,
+but see Aggregate if you want to see a "stateful" operator.
+
+You then edit catalogmgr/BoxRecord.H to give an "id" for your box (see
+the top defines) -- that id MUST MATCH the "id" you tell jeong-hyon to
+set at the gui. See the GUI section.
+
+Ok, now catalogmgr/src/CatalogManager.C, lines around 454, you add a case
+statement that will actually instantiate your MyOpBox object, this is also
+when you get passed the "modifier" , a string the gui will pass on to your
+box for you to parse out parameteres.
+
+Add MyopBox.o to makedefs_catalogmgr_lib_objects.mk to get it to be built.
+
+SCHEDULER
+
+Now, the actual box the SCHEDULER runs is in sched/src/[name]QBox.C|H. So
+now you write sched/src/MyopQBox.C|H (extends QBox). The most important
+function is  doBox() [returning Box_Out_T]. You have access to the tuples
+coming in via inStream, you put them on the outStream.. Look at FilterQBox.C
+for example, including the things you have to set for the return value.
+
+Now you want your scheduler to run your box, here's what you modify:
+
+Catalog.H where you give your box an id. It can be anything you want,
+just not the same as the ones we use, obviously. It has no relation to
+the id above in BoxRecord.H.
+
+Edit sched/src/Catalog.C, Catalog::convertBoxType, to convert between
+your scheduler box type and your catalog box type.
+
+And now, Scheduler.C lines around 1702, you add a case statement to
+create an instance of MyopQBox, and then a little lower (around lines
+1814) you can pass paramaters to your QBox (this is when you pass the
+modifier to the box for example with a setBox() call, see the examples
+already done)...
+
+Add MyopQBox.o to makedefs_sched_lib_objects.mk to get it to be built.
+
+GUI
+
+Ok, so now you wrote your objects, you now have to close some empty loops:
+GUI -- if you want to have your box there, talk to jeong-hyon.
+
+STATS IMAGE
+
+Add your box to the switch statement in runtime_misc/src/StatsImage.C

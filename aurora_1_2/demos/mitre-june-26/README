@@ -1,0 +1,18 @@
+To run this MITRE demo (the 3 queries, shown around june 26) you need to:
+
+1) copy over this StreamThread.C into ../sched/src (it contains the "workload generator")
+2) Run from AURORA_SRC_DIR/bin:
+./run_a_network ../auroralib/src/run_a_network/config.xml ../demos/mitre-june-26/
+
+ and run the MITRE network.
+
+
+THE DEMO:
+
+ 3 Mitre Queries. The output queues show:
+  "X soldiers crossed the border"
+  "center of mass moved by X"
+  "tank's turret is close and pointed to friendly unit"
+
+ - Anurag & Eddie
+

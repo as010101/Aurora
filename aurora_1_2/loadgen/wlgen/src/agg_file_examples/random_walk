@@ -1,0 +1,177 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file contains the configuration data to construct 
+% an aggregate stream source.
+%
+% For the format of this file, please see  ~ File Format Description ~      
+% at the end of the file.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%       File Data Starts Here            %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+10015			// integer ID
+random_walk_example	// string ID
+1 			// number of streams
+-1 			// number of tuples per stream: -1 for infinity
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Information for rate
+% Interarrive time  
+0 		// rate distribution type : CONSTANT (periodic rate)
+1		// number of parameters
+
+0 		// distribution type : CONSTANT
+1 		// number of parameters
+1		// parameter : Constant value
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Information for attributes
+1 		// number of attibutes
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Attribute 1
+% Random Walk 
+0 		// data type : INTEGER
+4		// data length 
+
+5 		// distribution type : RANDOMWALK
+
+5 		// number of parameter distributions
+
+% Parameter 1
+% Initial value
+1               // distribution type : UNIFORM
+2               // number of parameters
+0		// parameter : Lower bound
+1000		// parameter : Upper bound
+
+% Parameter 2
+% Step per second
+0               // distribution type : CONSTANT
+1               // number of parameters
+10		// parameter : Constant value
+
+
+% Parameter 3
+% Probability to change direction 
+0               // distribution type : CONSTANT
+1               // number of parameters
+0.5		// parameter : Constant value
+
+% Parameter 4
+% Lower Bound
+0               // distribution type : CONSTANT
+1               // number of parameters
+0		// parameter : Constant value
+
+% Parameter 5
+% Upper Bound
+0               // distribution type : CONSTANT
+1               // number of parameters
+1000		// parameter : Constant value
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%       ~ File Format Description ~      %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This file contains the configuration data to construct 
+% a aggregate stream source
+%
+% The format of this files are the following: 
+%
+% Aggregate Stream Interger ID
+%    int 
+%
+% Aggregate Stream String ID
+%    string 
+%
+% Number of Streams
+%    int
+%
+% Number of Tuples
+%    int  
+%       n > 0 : for finite stream
+%       n < 0 : for infinite stream
+%
+% Distribution Type For Rate 
+%    int
+%       0 : CONSTANT, 
+%       1 : UNIFORM, 
+%       2 : NORMAL, 
+%       3 : EXPONENTIAL,
+%       4 : LINEAR,
+%       5 : RANDOMWALK,
+%       6 : RANDOMDIRECTIONWALK,
+%       7 : OTHER
+%
+% Number of Papameters        // Each distribution has some parameters, 
+%                             // they are also specified by distribution.  
+%                             // This numbers must be consistant with 
+%                             // the distibutiong type
+%    int (m)
+%       1 : CONSTANT, 
+%       2 : UNIFORM, 
+%       2 : NORMAL, 
+%       1 : EXPONENTIAL,
+%       4 : LINEAR,
+%       5 : RANDOMWALK,
+%       5 : RANDOMDIRECTIONWALK,
+%       0 : OTHER
+% -------------------------------------------------------------------------- 
+% - This part is just description. Not part of the file format
+% - Parameters for each distribution:
+% -  CONSTANT	: constant_value
+% -  UNIFORM	: lower_bound, upper_bound
+% -  NORMAL	: mean, standard_deviation
+% -  EXPONENTIAL: mean
+% -  LINEAR	: initial_value, step, lower_bound, upper_bound
+% -  RANDOMWALK	: initial_value, step, probability, lower_bound, upper_bound
+% -  RANDOMDIRECTIONWALK: initial_value, step, probability, 
+% -                     :  lower_bound, upper_bound  
+% ---------------------------------------------------------------------------
+% 
+% Entries for Parameters Distribution. // There will be several entries
+% (
+%  Distribution Type 
+%    int
+%  Number of Parameters
+%    int (n)
+%  Parameters 
+%    int * n           // int * n means n integers
+% ) * m                // m entries
+%
+% Number of Attributes 
+%    int (k)
+% 
+% Entries of Attribute
+% (
+%  Data Type
+%     int
+%        0 : INTEGER
+%        1 : FLOAT
+%        2 : DOUBLE
+%        3 : STRING
+%
+%  Data Type Length (The first three types are not used in the program)
+%     4 : INTEGER
+%     4 : FLOAT
+%     8 : DOUBLE
+%     n : STRING
+%
+%  Distribution Type
+%     int
+%  
+%  Number of Parameters
+%     int (n)
+%
+%  Parameters 
+%    int * n           // int * n means n integers
+% ) * k
+%  
+%  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

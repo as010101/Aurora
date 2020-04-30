@@ -1,0 +1,91 @@
+Please change the file "inputports" for correct port numbers at Aurora.
+
+////////////////////////////////////////////////////////////////////////////
+             Input Data Stream Format 
+////////////////////////////////////////////////////////////////////////////
+Schema:		Timestamp	ID	X	Y	Color	Heading 
+Data type:	int		int	int	int	int     int	
+
+
+////////////////////////////////////////////////////////////////////////////
+             Input Image Stream Format 
+////////////////////////////////////////////////////////////////////////////
+Schema:		Timestamp  ImageIndex	Row_index_begin	Row_index_end	bytes
+Data type:	int	   int  	int		int		binary bytes
+
+The size of the bytes field is 
+the number of column * bytes/pixel * rows/tuple
+These information are in the "isendconfig" file.
+
+
+////////////////////////////////////////////////////////////////////////////
+              Manul for sgen
+////////////////////////////////////////////////////////////////////////////
+sgen reads configuration information from a configration file and writes
+the generated data to a file.
+
+Usage:
+sgen [output filename] [configuration filename]
+
+eg:
+sgen data1.dat config1.dat
+   (use "config1" as defualt configuration file and output to "data1.dat")
+sgen data1.dat
+   (use "config" as defualt configuration file and output to "data1.dat")
+sgen
+   (use "config" as defualt configuration file and output to "data.dat")
+
+Check the config file, you'll find what are those parameters. 
+You can's change the order of these parameters.
+Here are more explanation of the parameters you can set in config file
+update interval: how many seconds, sensor report data
+period2 start time: when the foe airplane/tank near the front turn west
+period3 start time: when the foe airplane/tank near the from all pass
+                    the front line 
+endtime: when stop
+Note, the unit for update interval is second. the unit for startime,
+   endtime is number of updates.
+
+You can also change the number of objects in each area and their id
+range. 
+Note, the ID for tanks are from 0 to 999. the ID for aircrafts are 1000+
+
+
+////////////////////////////////////////////////////////////////////////////
+              Manul for ssend
+////////////////////////////////////////////////////////////////////////////
+ssend read data from a file and send them to aurora. 
+
+Usage:
+ssend hostname port filename
+
+hostname: machine name where aurora runs. You can use localhost if same machine
+port: aurora port number for input
+filename: data file name
+
+eg: 
+ssend localhost 12000 data1.dat
+ssend ariel@cs.brown.edu 12000 data1.dat
+
+////////////////////////////////////////////////////////////////////////////
+              Manul for isend
+////////////////////////////////////////////////////////////////////////////
+isend send image files to Aurora as tuples.
+
+Usage:
+isend hostname port
+
+Configuration file: isendconfig
+
+
+////////////////////////////////////////////////////////////////////////////
+            Other files in this package 
+////////////////////////////////////////////////////////////////////////////
+config : a configuration file. I use all the numbers in the handout
+config1: a configuration file with very small number of objects and last
+         only a short time. 
+data.dat : data generated using config. very long. real data
+data1.dat: data generated using config1. short.
+
+
+

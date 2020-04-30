@@ -1,0 +1,63 @@
+
+> 
+> This is your facilities czar speaking.
+> 
+> We are switching machines. Switching is a five step process.
+> If you are not around, you just need to look at steps (a) and (d).
+> 
+> a) Add /bin/linux and /usr/X11R6/bin to your path.
+>    cp .xinitrc to .xsession.
+> 
+> b) Find a linux box and make sure you can login on the console. 
+>    You can get access to the tux lab on the second floor, by seeing Kathy 
+>    Kirman (572). The tux lab has 10 linux boxes.
+> 
+> c) Go to Dorinda Multon's office (571), and choose a slot for your SUN to
+>    swapped for a linux box, by writing your login clearly on the chart
+>    on her door. Slots will be between now and the end of 
+>    the month, between 9 and 10 in the morning. You don't need to be there,
+>    but you need to be logged out.
+> 
+> d) Send Dorinda (djm) an email with your office number, the slot you chose,
+>    the name of your SUN, and a name for new machine (you can keep your SUN's
+>    name if you want). If you are not around, you don't need a slot. 
+>    Include the other three bits. 
+> 
+> e) Recompile everything on your new, sparkling, fast machine, and enjoy.
+>    If there is a program you are missing, check that there exists a debian
+>    package for it (go to http://www.debian.org/distrib/packages, and look
+>    for packages in the "testing" distribution). If there is, 
+>    send email to "problem" mentioning your machine's name and the package 
+>    name.  If there isn't, you need to build it yourself. Add the name of the 
+>    project and the directory you put it in in /pro/tmp/projects.
+> 
+> f) If there is something you still need a SUN for, the following SUNs are
+>    staying:
+>                      angell
+>                      bosch
+>                      bruford
+>                      eggplant
+>                      flanger
+>                      gano
+>                      karla
+>                      lippitt
+>                      loki
+>                      mandolin
+>                      markov
+>                      poplar
+>                      saruman
+> 
+> That's all! Enjoy!
+> 
+> Checklist:
+> 
+> 1) You have fixed your path and cp'ed .xinitrc to .xsession.
+> 2) You have made sure you can login on a linux box's console.
+> 3) You have signed up for a slot.
+> 4) You have sent djm mail with the specifics.
+> 5) You have logged out the day before the switch.
+> 
+> 
+
+
+

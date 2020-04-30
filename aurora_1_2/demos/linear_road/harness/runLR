@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e -x
+
+mkdir -p $AURORA_SRC_DIR/dbs/
+rm -f $AURORA_SRC_DIR/dbs/*
+
+$AURORA_SRC_DIR/bin/wlgen_api_daemon \
+  $AURORA_SRC_DIR/demos/linear_road/config.xml

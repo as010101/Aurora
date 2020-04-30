@@ -1,0 +1,60 @@
+                  Summer Plan for Aurora GUI Monitoring component
+
+
+Objective:
+    The purpose of the GUI monitoring component is to allow a user of the Aurora
+    system to see any bottlenecks or overflows in the system. In order to
+    achieve this, users will be given the option of several different view
+    options, each dependant on the value to be measured. This data should be
+    presented in a clear manner, possibly at the discretion of the user.
+
+Method:
+    There are several possibilities regarding what can be measured, and how to
+    present this information to the user. The top candidates at present are as
+    follows:
+    (1) What to measure
+        (a) Latency between time of arrival at an arc and departure time
+        (b) Queue length on an arc
+        (c) Rate at which data reaches or leaves an arc
+        (d) Length of time it takes a tuple to be computed within a box
+    (2) How to present system status
+        (a) Color arcs
+        (b) Text label on arc
+        (c) Tooltip on mouseover
+        (d) Width of the arrow
+        (e) QoS graph on the end of the arc
+
+Needs:
+    (1) Retrieve data from C++
+        (a) look into sleepycat
+        (b) look into JNI
+        (c) determine who's storing stats
+    (2) Research Petal
+        (a) for coloring arcs
+        (b) for labeling arcs
+        (c) for changing width of petal arcs
+        (d) for adding tooltips
+        (e) for adding graph labels to arcs
+    (3) Java color
+        (a) find out why color wasn't working
+        (b) fix, and find an appropriate scheme
+    (4) Decide on method
+        (a) Primary method
+        (b) determine which other methods to offer
+
+Summer plan:
+    June 14- Prelimnary research complete, weekly release schedule updated
+    June 21- Method decision, first version of display component; Discussions
+             with those responsible for storing data, research into method of
+             said communication. work with workload gen (provide components)
+    June 28- Next release of display (runtime change of values); design and 
+             first release of communication, retrieving data from workload gen
+    July 5- Communication improvements, work with workload gen on improvements
+    July 12- First full integration of communication with display, runtime
+             change of display, etc.
+    July 19- Secondary methods of display, improvements to first full release
+    July 26- ?
+    August 2- ?
+    August 9- ?
+    August 16- ?
+    August 30- Full release

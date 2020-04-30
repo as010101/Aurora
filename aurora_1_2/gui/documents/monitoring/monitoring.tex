@@ -1,0 +1,97 @@
+\documentclass[a4paper,12pt]{article}
+\begin{document}
+
+\newcommand{\thisproj}{\bf GUI Monitoring}
+
+\makeatletter                   % Make '@' accessible.
+\pagestyle{myheadings}              % We do our own page headers.
+\def\@oddhead{\bf Aurora - \thisproj \hfill (arsinger)} 
+\hbadness=10000                 % No "underfull hbox" messages.
+\makeatother     
+
+\section*{Overview}
+
+The Monitoring Application is designed to allow a user of the Aurora system to
+see any bottlenecks or overflows in an Aurora network. In order to achieve this,
+users will be given the option of several different view options, each dependent
+on the value to be measured. This data should be presented in a clear manner. In
+addition, the user may have control over what values they wish to measure.
+
+\section*{Method of Monitoring}
+
+There are several possibilities with regards to what values can be measured and
+how this information can be displayed to the user. The top candidates at present
+are as follows:
+
+\begin{enumerate}
+\item What to measure
+\begin{enumerate}
+\item Latency between time of arrival at an arc and departure time
+\item Queue length on an arc
+\item Rate at which data reaches or leaves an arc
+\item Length of time it takes a tuple to be computed within a box
+\end{enumerate}
+\item How to present system status
+\begin{enumerate}
+\item Color arcs (some code already in place to support)
+\item Text label on arc
+\item Tooltip on mouseover
+\item Width of the arrow
+\item Attach a QoS graph to the arc
+\end{enumerate}
+\end{enumerate}
+
+\section*{Action Items}
+
+The following items need to be accomplished:
+
+\begin{itemize}
+\item Retrieve data from C++ via SleepyCat
+\begin{itemize}
+\item Develop table schema
+\item Communicate with whomever is storing said data
+\end{itemize}
+\item Research awt/swing
+\begin{itemize}
+\item for labeling arcs
+\item for adding tooltips
+\item for adding graph labels
+\end{itemize}
+\item Decisions regarding method
+\begin{itemize}
+\item Primary method
+\item Pick which other methods to implement
+\item Determine whether/how to allow user to change method used
+\end{itemize}
+\end{itemize}
+
+\section*{Summer Plan}
+
+In order to test monitoring, there must be data to monitor. The workflow
+generator will provide this dynamically generated data. To this end, setting up
+communication with the Workflow generator is the first priority, followed by
+implementing monitoring capability.
+
+The current plan for implementing Monitoring is as follows:
+\begin{enumerate}
+\item Initial GUI support for Monitoring (color arcs) [complete]
+\item GUI end support for workflow generator [7/1]
+\begin{enumerate}
+\item Updating type/aggregate stream system
+\item Implementing dialogs to set data values
+\end{enumerate}
+\item Communication with workflow generator (SleepyCat or TCP/IP) [7/10]
+\item Communication with Scheduler via SleepyCat [7/14]
+\item Connecting info from scheduler with several GUI methods [7/17]
+\begin{enumerate}
+\item Color arcs
+\item Text label
+\item Tooltip
+\item Arrow width?
+\end{enumerate}
+\item Integrate with QoS graphs [7/26]
+\item Revisions to UI [8/2]
+\item User ability to alter how data is display and what data is recorded [8/9]
+\end{enumerate}
+
+\end{document}

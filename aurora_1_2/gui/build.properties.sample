@@ -1,0 +1,16 @@
+# Note : if all property values are commented out, build.xml will default to
+# the values for solaris, as well as using the javac compiler.
+
+## global property values
+# optional line, if you want to use jikes.  
+# build.compiler         = jikes
+# catalog.path          = /pro/aurora/catalog
+
+## values for solaris
+#src.zip.dir            = /u/rly/j2sdk1.4.0/src.zip
+#berkeleydb.lib.dir     = /pro/aurora/BerkeleyDB/lib
+
+## values for linux
+ src.zip.dir            = /u/rly/linux/j2sdk1.4.0_01/src.zip
+ berkeleydb.lib.dir     = /pro/aurora/linux/BerkeleyDB.4.0/lib
+

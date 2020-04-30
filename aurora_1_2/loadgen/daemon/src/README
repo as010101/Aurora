@@ -1,0 +1,52 @@
+
+////////////////////////////////////////////////////////////////
+//                 Aurora Socket API                          // 
+////////////////////////////////////////////////////////////////
+
+Aurora Socket API is a built as a C library.
+Please check AuroraSocketAPI.H for initialization options.
+
+
+////////////////////////////////////////////////////////////////
+//                      Input Format                          // 
+////////////////////////////////////////////////////////////////
+
+If a client wants to send data to ASA, it shall connenct to ASA at
+specified input server port and send the flowing data:
+
+Input Stream Format: 
+  packet size (int)  // = sizeof(int) + tuple size
+  input port  (int)
+  tuple data 
+
+////////////////////////////////////////////////////////////////
+//                      Output  Format                        // 
+////////////////////////////////////////////////////////////////
+
+If a client wants to receive data from ASA, it shall connect to ASA at
+specified output server port and send the flowing data first:
+
+Output Server Receieved Data Format
+  number of output ports     (int)  // eg, this number is n
+    output port              (int)  // there shall be n pairs of port
+    tuple size for this port (int)  // and tuple size.
+    ...
+    output port              (int)
+    tuple size for this port (int)
+
+After Output Server received the above request, it will send data to the 
+client with the following format:
+
+Output Stream Format: 
+  packet size (int)  // = sizeof(int) + tuple size
+  input port  (int)
+  tuple data 
+
+
+////////////////////////////////////////////////////////////////
+//                        Notice                              // 
+////////////////////////////////////////////////////////////////
+
+Please send everything in raw C bytes.
+Don't convert integers to network format.
+

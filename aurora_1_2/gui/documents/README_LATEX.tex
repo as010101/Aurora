@@ -1,0 +1,79 @@
+\documentclass[a4paper,12pt]{article}
+\begin{document}
+
+\newcommand{\thisproj}{\bf GUI LaTeX Handbook}
+
+\makeatletter                   % Make '@' accessible.
+\pagestyle{myheadings}              % We do our own page headers.
+\def\@oddhead{\bf Aurora - \thisproj \hfill (arsinger)} 
+\hbadness=10000                 % No "underfull hbox" messages.
+\makeatother     
+
+\section*{Making a LaTeX File}
+
+The best method is to simply copy a previous LaTeX file rather than to start one
+from scratch. See README\_LATEX.tex for an example.
+
+With this, you will be all set to insert your own formatted text.
+
+\section*{Special Tags}
+
+In the README\_LATEX.tex file, there are several tags of note:
+
+\begin{itemize}
+\item newcommand: This is the subtitle of the header across each page
+\item def @oddhead: This is what appears across the top of the page
+\item section*\{\}: Section titles
+\item begin\{enumerate\}: Start of a numbered list
+\item end\{enumerate\}: End of a numbered list
+\item begin\{itemize\}: Start of an unnumbered list
+\item end\{itemize\}: End of an unnumbered list
+\item item: A list item for either list
+\end{itemize}
+
+\section*{Normal Text:}
+
+Simple type the text in. If you want to start a new paragraph, use two
+returns to make it clear to a reader of the tex file that you have started a
+new paragraph. LaTeX automatically formats for you.
+
+\section*{Generating a *.ps file:}
+
+You need to convert the *.tex file to a *.dvi file, and from the *.dvi file 
+to a *.ps file. And you don't want too many intermediary files hanging around
+afterwards, so we use the -c option. The -o "" option is to make sure we
+output to a file rather than print.
+
+Use:
+\begin{enumerate}
+\item texi2dvi4a2ps -c (filename).tex
+\item dvips -o "" (filename).dvi
+\end{enumerate}
+
+This can also be achieved by writing:
+texi2dvi4a2ps -c (filename).tex ; dvips -o "" (filename).dvi
+
+As this is quite annoying to type, I have written a quick script:
+/u/arsinger/bin/tex2ps
+which takes just the first part of the name (not the .tex part) as a
+variable. Also, it should be able to handle multiple files at a time.
+
+So if you want to PSify:
+my\_tex\_file.tex another\_tex.tex joe.tex
+you would use:
+/u/arsinger/bin/tex2ps my\_tex\_file another\_tex joe
+and should get:
+my\_tex\_file.ps another\_tex.ps joe.ps
+with the original files still there, no intermediary files, and only
+my own personal signature output. All the rest of the junk should be gone.
+
+Go me!
+
+\section*{Questions? Problems?}
+
+E-mail arsinger@cs.brown.edu
+
+While I certainly don't know everything about LaTeX, I'm learning and may be
+able to help out.
+
+\end{document}

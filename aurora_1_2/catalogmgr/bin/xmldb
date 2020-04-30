@@ -1,0 +1,336 @@
+#!/usr/bin/perl
+
+use BerkeleyDB;
+use Carp;
+use strict;
+use Text::Wrap;
+use XML::DOM;
+
+### CONSTANTS
+
+sub FILTER { 0 }
+sub MAP { 1 }
+sub AGGREGATE { 2 }
+sub SLIDE { 3 }
+sub XSECTION { 4 }
+sub BSORT { 5 }
+sub RESTREAM { 6 }
+sub UNION { 7 }
+sub RESAMPLE { 8 }
+sub JOIN { 9 }
+sub DROP { 10 }
+sub SUPERBOX { 11 }
+sub INPUTPORT { 12 }
+sub OUTPUTPORT { 13 }
+
+sub INPUTPORTTYPE { 0 }
+sub OUTPUTPORTTYPE { 1 }
+
+### FUNCTIONS
+
+sub usage {
+    print STDERR <<END;
+Usage: xmldb file.xml catalogdir - creates schema in catalogdir
+       xmldb catalogdir - dumps catalog to stdout as XML
+END
+
+    exit 1;
+}
+
+sub dbdie {
+    confess "@_: $BerkeleyDB::Error";
+}
+
+my %enums = (
+             BOXTYPE => [ qw(filter map aggregate slide xsection bsort restream union resample join drop
+                             superbox inputport outputport) ],
+             INOROUT => [ qw(input output) ]
+             );
+
+my %enums_by_name = ();
+while (my ($k, $v) = each %enums) {
+    for (my $i = 0; $i < @$v; ++$i) {
+        $enums_by_name{$k}->{$v->[$i]} = $i;
+    }
+}
+
+my @schemas = ();
+my %schemas = ();
+sub init_schemas {
+    # Read in schema information from DATA
+    foreach (split(/\n\s*\n/, join("", <DATA>))) {
+        next unless (/\S/);
+        die "Weird schema!" unless (/ (\w+) \s* \( (.+) \) /sx);
+
+        my $name = $1;
+        my @fields = ();
+        my @names = ();
+
+        my $template = "";
+
+        foreach (split(/,/, $2)) {
+            die "Weird field!" unless (/^ \s* (\w+) \s* (?: \[ \s* (\w+) \s* \] \s* )? (\w+) \s* (\??) (\*?) \s* $/sx);
+            push(@fields, {TYPE => $1,
+                           ENUM => $2,
+                           NAME => $3,
+                           OPTIONAL => ($4 eq "?"),
+                           KEY => ($5 eq "*")});
+
+            push(@names, $3);
+            if ($1 eq "int" or $1 eq "boolean") {
+                $template .= "N";
+            } elsif ($1 eq "string") {
+                $template .= "n/a*";
+            } elsif ($1 eq "float") {
+                $template .= "N";  # Not sure if this is right; may need to swap bytes?
+            } else {
+                die "Unknown field type $1";
+            }
+        }
+
+        my $unpacker = sub {
+            my $data = shift;
+            my @p = unpack($template, $data);
+            for (my $i = 0; $i < @fields; ++$i) {
+                if ($fields[$i]->{TYPE} eq "int") {
+                    $p[$i] -= 2**32 if ($p[$i] >= 0x80000000);
+
+                    my $enum = $fields[$i]->{ENUM};
+                    if ($enum) {
+                        my $val = $enums{$enum}->[$p[$i]];
+			if ($val) {
+			    $p[$i] = $val;
+			} else {
+                            warn "Unknown value for enum $enum: $p[$i]";
+			    # Use the int value anyway.
+			}
+                    }
+                } elsif ($fields[$i]->{TYPE} eq "float") {
+                    $p[$i] = unpack("f", pack("l", $p[$i]));
+                }
+            }
+            @p;
+        };
+
+        my $packer = sub {
+            # Input: an associative array of name->value pairs
+            my %v = @_;
+
+            my @out = ();
+            my @missing = ();
+
+            my @keyfields = ();
+
+            for (my $i = 0; $i < @fields; ++$i) {
+                my $f = $fields[$i];
+                if (!$f->{OPTIONAL} && !exists $v{$f->{NAME}}) {
+                    push(@missing, $f->{NAME});
+                    next;
+                }
+                my $val = $v{$f->{NAME}};
+
+                if ($f->{TYPE} eq "int") {
+                    if ($f->{ENUM} && $val =~ /[a-z]/i) {
+                        my $newval = $enums_by_name{$f->{ENUM}}->{$val};
+			if (defined($newval)) {
+			    $val = $newval;
+			} else {
+			    warn "Unknown value for enum $f->{ENUM}: $val";
+			}
+                    }
+                    $val ||= 0;
+                    die "Invalid int: \"$val\"" unless ($val =~ /^-?(\d+)$/);
+                    $val += 2**32 if ($val < 0);
+                } elsif ($f->{TYPE} eq "float") {
+                    $val ||= 0;
+                    $val = unpack("l", pack("f", $val));
+                } elsif ($f->{TYPE} eq "boolean") {
+                    $val ||= 0;
+                    die "Invalid boolean: \"$val\" (must be 0 or 1)"
+                        unless ($val eq "0" or $val eq "1");
+                }
+
+                push(@out, $val);
+                push(@keyfields, $val) if ($f->{KEY});
+            }
+
+            if (@missing) {
+                die "Missing fields in $name row: @missing";
+            }
+
+            if ($name eq "Metadata") {
+                @keyfields = (0);
+            } elsif ($name eq "PortTable") {
+                push(@keyfields, 0xFFFFFFFF);
+            }
+
+            my $key = pack("N*", @keyfields);
+            my $value = pack($template, @out);
+            return ($key, $value);
+        };
+
+        $schemas{$name} = {
+            NAME => $name,
+            FIELDS => \@fields,
+            NAMES => \@names,
+            TEMPLATE => $template,
+            UNPACKER => $unpacker,
+            PACKER => $packer
+        };
+        push(@schemas, $schemas{$name});
+    }
+}
+
+### MAIN
+
+init_schemas();
+
+if (@ARGV == 1) {
+    # From catalog to stdout
+
+    my $dir = shift @ARGV;
+    die "No such directory $dir" unless -d $dir;
+
+    my %data = ();
+
+    print "<Catalog>\n";
+
+    local $Text::Wrap::huge = 'overflow';
+
+    foreach my $sch (@schemas) {
+        tie my %box, 'BerkeleyDB::Btree',
+        -Filename => "$dir/$sch->{NAME}.db"
+            or dbdie("Unable to open $sch->{NAME}");
+
+#        print "    <$sch->{NAME}>\n";
+
+        while (my ($k,$v) = each %box) {
+            my @p = &{$sch->{UNPACKER}}($v);
+            my $out = "<$sch->{NAME}.row";
+            for (my $i = 0; $i < @{$sch->{NAMES}}; ++$i) {
+                my $f = $sch->{FIELDS}->[$i];
+                
+                next if ($f->{OPTIONAL} &&
+                         (($f->{TYPE} =~ /^(int|float|boolean)$/ && $p[$i] == 0) ||
+                          ($f->{TYPE} eq "string" && $p[$i] eq "")));
+
+                my $attr = $p[$i];
+
+                # Change space to a control character to prevent
+                # attributes from wrapped.  We'll change it back later
+                $attr =~ s/ /\x01/g;
+                $out .= " $sch->{NAMES}->[$i]=\"$attr\"";
+            }
+            $out .= "/>";
+            print "    <!-- key: ",unpack("H*", $k)," -->\n";
+
+            my $wrapped = wrap(" " x 4, " " x (10 + length $sch->{NAME}), $out);
+            $wrapped =~ s/\x01/ /g;
+            print $wrapped,"\n\n";
+        }
+
+#        print "    </$sch->{NAME}>\n";
+
+        untie %box;
+    }
+
+    print "</Catalog>\n";
+} elsif (@ARGV == 2) {
+    my $xmlin = $ARGV[0];
+    my $dir = $ARGV[1];
+
+    die "No such file $xmlin" if (!-e $xmlin);
+    if (!-x $dir) {
+	mkdir $dir or die "couldn't create $dir: $!";
+    } else {
+	die "$dir not a directory" if (!-d $dir);
+    }
+
+    my $parser = new XML::DOM::Parser;
+    my $doc = $parser->parsefile($xmlin);
+
+    my $nodes = $doc->getElementsByTagName("*");
+    my $n = $nodes->getLength;
+
+    my %data = ();
+
+    for (my $i = 0; $i < $n; ++$i) {
+        my $node = $nodes->item($i);
+        my $name = $node->getTagName;
+        next if ($node->getTagName eq "Catalog");
+
+        if ($name !~ /^(\w+)\.row$/ || !exists($schemas{$1})) {
+            die "Unrecognized tag $1";
+        }
+
+        my $type = $1;
+        my $sch = $schemas{$type};
+
+        my $attr = $node->getAttributes;
+        my $nattr = $attr->getLength;
+        my %attr = ();
+
+        for (my $j = 0; $j < $nattr; ++$j) {
+            $attr{$attr->item($j)->getName} = $attr->item($j)->getValue;
+        }
+        my ($key, $value) = &{$sch->{PACKER}}(%attr);
+#        print "$type: ",unpack("H*", $key),"->",unpack("H*", $value),"\n";
+
+        $data{$type}->{$key} = $value;
+    }
+
+    use Data::Dumper;
+
+    foreach my $sch (@schemas) {
+        unlink "$dir/$sch->{NAME}.db";
+
+        tie my %box, 'BerkeleyDB::Btree',
+            -Filename => "$dir/$sch->{NAME}.db",
+            -Flags => DB_CREATE
+            or dbdie("Unable to create $dir/$sch->{NAME}.db");
+
+        if ($data{$sch->{NAME}}) {
+            %box = %{ $data{$sch->{NAME}} };
+        }
+        untie %box;
+    }
+} else {
+    usage();
+}
+
+__END__
+BoxTable
+(int boxId*, int[BOXTYPE] boxType, string label, string description?, string modifier?,
+int parentId*, float cost?, float selectivity?, boolean userDefinedTypes?,
+boolean outputDefinedTypes?, int x?, int y?, int width?, int height?)
+
+ArcTable
+(int id*, float rate, int typeId, int sourceNodeId, int targetNodeId,
+int sourcePortIndex, int targetPortIndex, int cpFlag, int parentId*)
+
+PortTable
+(int boxId*, int portIndex*, int typeId, int[INOROUT] portType*)
+
+CompositeType
+(int typeId*, string typeName, int numberOfFields)
+
+TypeField
+(int typeId*, int attributeIndex*, string attributeName, int attributeTypeId,
+int attributeSize, int offset)
+
+ArcPaletteTable
+(int id, float rate, int typeId, int sourceNodeId, int targetNodeId,
+int sourcePortIndex, int targetPortIndex, int cpFlag, int parentId,
+int rootBoxId)
+
+BoxPaletteTable
+(int boxId, int boxType, string label, string description, string modifier,
+int parentId, float cost, float selectivity, int x, int y, int width, int
+height,
+int rootBoxId)
+
+Metadata
+(int max_lowerBoxId, int max_upperBoxId)
+
+PortPaletteTable
+(int boxId, int portIndex, int typeId, int portType, int rootBoxId)

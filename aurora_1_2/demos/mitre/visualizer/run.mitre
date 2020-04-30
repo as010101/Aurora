@@ -1,0 +1,5 @@
+
+java -classpath mitredemo.jar mitredemo.Visualizer Battlefield.cfg &
+../../../perf_mon/bin/perf_mon_gui anatolia &
+java -classpath mitredemo.jar mpegplayer.MpegPlayer player.cfg sample.mpg &
+../inputgen/ssend anatolia 16000 data4.dat &

@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Aurora Release Notes</title>
+</head>
+<body>
+<h1>Aurora Release Notes</h1>
+<h2>Aurora 1.0.6</h2>
+<span style="font-style: italic;">Released April 17, 2003</span><br>
+<br>
+<h3>Branches Merged In</h3>
+<ul>
+  <li>branch_operators_vldbjournal</li>
+  <li>(various fixes / improvements directly on the trunk)<br>
+    <br>
+  </li>
+</ul>
+<h3>Enhancements</h3>
+<ul>
+  <li>Implemented the operators in VLDB Journal's operators paper<br>
+    <br>
+  </li>
+  <li>Added interface for the delayed-statistics code that the Load
+Shedder will make use of. The interface isn't yet implemented. The
+interface starts at a class named DelayedDataMgr.<br>
+    <br>
+  </li>
+  <li>Added a new class into the Aurora runtime: RuntimeGlobals.&nbsp;
+Code in the Aurora runtime cane use this class as an easy way to access
+the runtime's TraceLogger, PropsFile, and DelayedDataMgr. We haven't
+reworked existing code to use this class when appropriate.<br>
+  </li>
+</ul>
+<br>
+<h2>Older versions' release notes</h2>
+<ul>
+  <li><a href="#Aurora_1.0.3">1.0.3</a></li>
+  <li><a href="#Aurora_1.0.4">1.0.4</a></li>
+  <li><a href="#Aurora_1.0.5">1.0.5</a><br>
+  </li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>Building the Code</h3>
+<ol>
+  <li>Set the <span style="font-style: italic;">AURORA_SRC_DIR</span>
+environment variable to give the path of the top directory of the aurora
+source code. I.e., /home/jdoe/aurora/.<br>
+    <br>
+  </li>
+  <li>Set the <span style="font-style: italic;">AURORA_BUILD_ENV</span>
+environment variable to one of the valid values spelled out in the top
+few lines of the file <span style="font-style: italic;">aurora/makedefs_locations.mk</span>.<br>
+    <br>
+  </li>
+  <li>type <span style="font-style: italic;">cd $AURORA_SRC_DIR</span><br>
+    <br>
+  </li>
+  <li>type <span style="font-style: italic;">make</span><br>
+  </li>
+</ol>
+<br>
+<h3>Using Aurora</h3>
+<ul>
+  <li>To run the Aurora development GUI, do this:</li>
+  <ol>
+    <li>type <span style="font-style: italic;">cd aurora/gui</span></li>
+    <li>type <span style="font-style: italic;">ant run<br>
+      <br>
+      </span></li>
+  </ol>
+  <li>To use the Aurora C++ API:</li>
+  <ul>
+    <li>The header files are found in <span style="font-style: italic;">aurora/auroralib/include</span></li>
+    <li>Link your program to the archive file <span
+ style="font-style: italic;">aurora/auroralib/lib/libaurora.</span><span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span><br>
+    </li>
+  </ul>
+</ul>
+<br>
+<h3>Required 3rd Party Software</h3>
+<table cellpadding="2" cellspacing="2" border="1"
+ style="text-align: left; width: 100%;">
+  <tbody>
+    <tr>
+      <th style="vertical-align: top;">Package<br>
+      </th>
+      <th style="vertical-align: top;">Version(s)<br>
+      </th>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Electric Fence<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 2.2.2<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Xerces</td>
+      <td style="vertical-align: top;">Known to work: 2.1.0 (must be
+built with GCC 3.2 or higher)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Berkeley DB</td>
+      <td style="vertical-align: top;">Known to work: 4.0.14  (must be
+built with GCC 3.2 or higher)<br>
+Known to <span style="font-style: italic;">not</span> work: 4.1.x<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">XForms<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 1.0<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Gnu MP<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 4.1.2 (must be
+built with GCC 3.2 or higher)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Jakarta Ant<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 1.5.1<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">JDK</td>
+      <td style="vertical-align: top;">Sun JDK 1.4.1<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">GCC (g++)<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 3.2.x<br>
+Known to <span style="font-style: italic;">not</span> work: versions
+earlier than 3.2<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Flex<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 2.5.4<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">tcsh<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: 6.11.00 (Astron)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Linux<br>
+      </td>
+      <td style="vertical-align: top;">Known to work: Some Debian hack
+with a Brown customized kernel: 2.4.18cs.k7.1</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h1>Older Versions' Release Notes<br>
+</h1>
+<h2><a name="Aurora_1.0.3"></a>Aurora 1.0.3</h2>
+<span style="font-style: italic;">Released March 26, 2003</span><br>
+<br>
+<h3>Branches Merged In</h3>
+<ul>
+  <li>turn_aurora_into_lib</li>
+</ul>
+<br>
+<h3>Change Summary</h3>
+<ol>
+  <li>Introduced the Aurora C++ API. This is the new way that
+applications should interact with the Aurora runtime system. This is in
+the <span style="font-style: italic;">aurora/auroralib</span> directory
+tree.<br>
+    <br>
+  </li>
+  <li>Altered the runtime system to encourage programmers to use a
+single, runtime-wide properties file for startup parameters.<br>
+    <br>
+  </li>
+  <li>Introduced a logging subsystem to the runtime. It can be used for
+both debugging output and normal runtime messages.<br>
+    <br>
+  </li>
+  <li>Created the top-level directory <span style="font-style: italic;">aurora/util</span>.
+Contains many utility classes/functions for XML parsing, properties
+files, threading, etc.<br>
+    <br>
+  </li>
+  <li>Major re-organization of the Scheduler. Most of the code that
+used to exist in <span style="font-style: italic;">scheduler/src/main.C</span>
+has been moved into the initialization method of the Aurora C++ API.<br>
+    <br>
+  </li>
+  <li>Little code changes throughout the code base to eliminate most
+compiler warnings.<br>
+    <br>
+  </li>
+  <li>Removed support for GCC 2.95. The new code makes use of some STL
+features that only appear in the 3.2.x series of GCC compilers.<br>
+    <br>
+  </li>
+  <li>The Scheduler used to contain code for automatically generating
+query network catalogs. This code has been moved into the Catalog
+Manager subsystem and made its own program. After Aurora has been built,
+you'll find the program at: <span style="font-style: italic;">aurora/catalogmgr/bin/netgen</span>.<br>
+  </li>
+</ol>
+<br>
+<h3>Known Bugs / Limitations<br>
+</h3>
+<ol>
+  <li>Because so many people were waiting on this code, I violated my
+own check-in mandates. While the code compiles cleanly, I didn't subject
+it to a recent Valgrind analysis. This analysis should be done soon.<br>
+    <br>
+  </li>
+  <li>The makefile <span style="font-style: italic;">aurora/makedefs_locations.mk</span>
+still requires custom modification for each different site that wants to
+build Aurora. This should be replaced by <span
+ style="font-style: italic;">autoconf</span> in the near future to give
+a more flexible build environment.<br>
+    <br>
+  </li>
+  <li>The Aurora API archive, when built in debug mode: around 70 MB.
+We should look into how to reduce this. (Optimized builds get it down to
+a very acceptable size.)<br>
+    <br>
+  </li>
+  <li>One of the unit test files requires modification before runtime
+use, because it contains a site-specific path. The file is <span
+ style="font-style: italic;">aurora/auroralib/src/testloadgen/dataset1_props.xml</span>.<br>
+    <br>
+  </li>
+  <li>The QoSMonitor and the QueueMonitor functionality, as seen in the
+original MITRE demos, is broken. This was actually broken prior to the
+creation of the <span style="font-style: italic;">turn_aurora_into_lib</span>
+branch. Alex Rasin has expressed some willingness to fix this in the
+future.<br>
+    <br>
+  </li>
+  <li>The MITRE demo cannot be built from this code. The MITRE demo
+source code wasn't being maintained even before the creatio of the <span
+ style="font-style: italic;">turn_aurora_into_lib</span> branch. Now
+that we have the Aurora API on which to build demos, the fixing of the
+MITRE demo should probably involve porting it to the demo to the Aurora
+API.<br>
+    <br>
+  </li>
+  <li>Filter boxes contain two output ports. The top port produces
+tuples that match the filter predicate. The bottom port is supposed to
+produce tuple not matching the filter predicate. However, it simply
+doesn't produce any tuples at all.<br>
+  </li>
+</ol>
+<br>
+<h2><a name="Aurora_1.0.4"></a>Aurora 1.0.4</h2>
+<span style="font-style: italic;">Released April 3, 2003</span><br>
+<br>
+<h3>Branches Merged In</h3>
+<ul>
+  <li>branch_aurora_c_api1<br>
+    <br>
+  </li>
+</ul>
+<h3>Enhancements</h3>
+<ul>
+  <li>Added a C API for Aurora applications. This is perfectly useable
+by an application, but the purpose for making it was to lay the
+groundwork for an Aurora Java API.<br>
+    <br>
+  </li>
+  <li>Added a utility program: <span style="font-style: italic;">aurora/util/bin/alselect</span>.
+This program takes, via stdin,&nbsp; a log file generated by Aurora's
+logging system. This program outputs, on stdout, only the subset of
+those messages that are in desired message groups.<br>
+    <br>
+  </li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+  <li>Removed some printing by the scheduler to stdout / stderr. Such
+printing violates our design goals for the library.<br>
+    <br>
+  </li>
+</ul>
+<h3>Known Bugs / Limitations<br>
+</h3>
+<div style="margin-left: 40px;">This list is now too cumbersome to
+describe in the release notes. Please see out BugZilla server:<br>
+<div style="margin-left: 40px;"><a
+ href="http://prynne.cs-i.brandeis.edu/bugzilla/">http://prynne.cs-i.brandeis.edu/bugzilla/</a><br>
+</div>
+for the complete list.<br>
+</div>
+<br>
+<h2><a name="Aurora_1.0.5"></a>Aurora 1.0.5</h2>
+<span style="font-style: italic;">Released April 7, 2003</span><br>
+<br>
+<h3>Branches Merged In</h3>
+<ul>
+  <li>branch_faster_builds1<br>
+    <br>
+  </li>
+</ul>
+<h3>Enhancements</h3>
+<ul>
+  <li>Made the runtime's Makefiles default to optimizing the object
+files, rather than including debug info. This is because:</li>
+  <ul>
+    <li>Most people don't seem to be using interactive debuggers when
+working on Aurora C++ code</li>
+    <li>Aurora builds ~ 15% faster this way</li>
+    <li>Object files' / archives' sizes shrink by about 95%<br>
+      <br>
+    </li>
+  </ul>
+  <li>In the runtime's Makefiles, enabled the "-Wuninitialized" flag by
+default, which means C++ programmers quickly discover some cases of
+using uninitialized variables.<br>
+    <br>
+  </li>
+  <li>Made a slight improvement in how we build libaurora_c.a and
+libaurora_cxx.a, slightly reducing the time it takes to produce those
+files.<br>
+    <br>
+  </li>
+  <li>If you use the programs 'testloadgen' or 'test_capi1' to exercise
+your code, here's how to do a minimal rebuild when you modify your code:</li>
+</ul>
+<ol>
+  <ol>
+    <li>Modify your code. I.e., aurora/sched/src/Scheduler.C<br>
+      <br>
+    </li>
+    <li>cd .../aurora/auroralib/src/<br>
+      <br>
+    </li>
+    <li>make</li>
+  </ol>
+</ol>
+<div style="margin-left: 40px;">This will avoid rebuilding the Aurora
+GUI, which can slow you down in a fast coding cycle.<br>
+<br>
+</div>
+<h3>Bug Fixes</h3>
+<ul>
+  <li>None.<br>
+    <br>
+  </li>
+</ul>
+<h3>Known Bugs / Limitations<br>
+</h3>
+<div style="margin-left: 40px;">This list is now too cumbersome to
+describe in the release notes. Please see out BugZilla server:<br>
+<div style="margin-left: 40px;"><a
+ href="http://prynne.cs-i.brandeis.edu/bugzilla/">http://prynne.cs-i.brandeis.edu/bugzilla/</a><br>
+</div>
+for the complete list.<br>
+</div>
+<br>
+</body>
+</html>

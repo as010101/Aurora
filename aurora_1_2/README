@@ -1,0 +1,62 @@
+BUILD REQUIREMENTS
+==================
+Maintainer: Christian Convey (cjc@cs.brown.edu)
+
+
+The following tools versions are known to work for building
+Aurora. Journey outside this list at your own peril.
+
+GCC compiler: 3.2 (www.gnu.org/software/gcc/)
+   It (probably) must be built with the following features enabled:
+   --enable-shared
+   --enable-threads
+   --enable-long-long
+
+   You can check for these features' presence using the command
+   "g++ -v".
+
+   It seems that "--enable-threads" and "--enable-threads=posix" are
+   both viable specifications for thread support.
+
+
+Berkeley DB 4.0.14 (www.sleepycat.com/download/patchlogs.shtml)
+   - Must be build with the "--enable-cxx" and "--enable-java"
+     configuration flags.
+   - 4.1.x doesn't work, because of an API change between
+     those versions that our code is sensitive to.
+
+
+Gnu MP library (libgmp.*) 4.1.2 (http://www.swox.com/gmp/)
+   - I think that possible it produces files with suprising names,
+     considering the package's version number:
+     libgmp.so.3.3.2 and libgmpxx.so.3.0.4.
+
+
+Xerces 2.1.0 (http://xml.apache.org/xerces-c/index.html)
+
+
+Electric Fence library (http://perens.com/FreeSoftware/)
+   - This isn't needed for all of our build profiles, but most of them expect 
+     this library to be available. It's only used for debugging
+     purposes.
+
+FLEX: 2.5.4  (http://www.gnu.org/software/flex)
+
+BUILD STEPS
+===========
+1. Get a copy of the "aurora" codebase. Assume you put it into
+   directoty "foo", such that you have directories such as...
+      foo/catalogmgr
+      foo/predparser
+      ...
+
+2. Set the environment variable AURORA_SRC_DIR to be the absolute path
+   of foo. I.e, ...
+
+   setenv AURORA_SRC_DIR /home/jdoe/code/foo
+
+   You'll probably want to do this in your shell init script, but it's up
+   to you.
+
+3. Set the environment variable AURORA_BUILD_ENV to the appropriate value.
+   This tells the Makefiles where to find various libraries, compilers, etc.

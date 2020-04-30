@@ -1,0 +1,3 @@
+
+java -classpath mitredemo.jar mpegplayer.MpegPlayer player.cfg sample.avi.mpg &
+/home/tatbul/aurora/demos/mitre/inputgen/ssend localhost 16000 data4.dat &

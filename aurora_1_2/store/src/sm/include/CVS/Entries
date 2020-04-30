@@ -1,0 +1,15 @@
+/CxnPtInfo.H/1.2/Mon Feb  3 20:38:14 2003//Taurora_1_2
+/IntraPageSlotRange.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/PagePool.H/1.3/Wed Jun 18 19:04:50 2003//Taurora_1_2
+/PagePriorityTracker.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/PageSlotAddr.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/QMetadata.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/QTopology.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/QviewTailPtrMap.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/SimplePageRing.H/1.1/Fri Jan 24 01:19:45 2003//Taurora_1_2
+/StorageMgr.H/1.30/Wed Mar 26 19:06:50 2003//Taurora_1_2
+/SuperBoxPacer.H/1.5/Mon Feb  3 20:38:14 2003//Taurora_1_2
+/SuperBoxPlanStep.H/1.4/Mon Feb  3 20:38:14 2003//Taurora_1_2
+/TimevalAvgTracker.H/1.1/Fri Jan 24 01:19:46 2003//Taurora_1_2
+/TupleQueue.H/1.3/Sat May 31 04:45:14 2003//Taurora_1_2
+D

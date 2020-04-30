@@ -1,0 +1,66 @@
+<props>
+<CatalogMgr.directory             type="string" value="/home/eddie/aurora/aurora/catalogmgr/FIDELITY2FIX" />
+<CatalogMgr.catalogDirectory      type="string" value="/home/eddie/aurora/aurora/catalogmgr" />
+
+<Runtime.FilterBoxCost     type="double" value="1.0"/>
+<Runtime.MapBoxCost        type="double" value="1.0"/>
+<Runtime.AggregateBoxCost  type="double" value="1.0"/>
+<Runtime.BsortBoxCost      type="double" value="1.0"/>
+<Runtime.RestreamBoxCost   type="double" value="1.0"/>
+<Runtime.UnionBoxCost      type="double" value="1.0"/>
+<Runtime.ResampleBoxCost   type="double" value="1.0"/>
+<Runtime.JoinBoxCost       type="double" value="1.0"/>
+<Runtime.DropBoxCost       type="double" value="1.0"/>
+
+<LoadShedder.mode                 type="string" value="NoLS"/>
+<LoadShedder.period               type="uint"   value="10"/>
+<LoadShedder.attribute            type="string" value="MyStringFieldName"/>
+<LoadShedder.inputRateMaxHistory  type="uint"   value="0"/>
+<LoadShedder.inputRateSamplePeriodMs type="uint"   value="3000"/>
+
+<Scheduler.max_queue_size         type="int"    value="10000"/>
+<Scheduler.max_num_worker_threads type="int"    value="1"/>
+<Scheduler.mem_size               type="ulong"  value="1000000"/>
+<Scheduler.stop_type              type="string" value="TUPLES_WRITTEN_TO_MEMORY"/>
+<Scheduler.stop_cond_tuples_written_to_memory  type="uint"  value="100000"/>
+<Scheduler.stop_cond_timed_stop   type="int"    value="1000000"/>
+<Scheduler.per_box_cost           type="double" value="1.0"/>
+<Scheduler.per_box_selectivity    type="double" value="1.0"/>
+<Scheduler.experiment_mode        type="bool"   value="F"/>
+<Scheduler.sched_by               type="string" value="BOX_SCHEDULING"/>
+<Scheduler.priority_assignment    type="string" value="RR"/>
+<Scheduler.rate_flag              type="bool"   value="T"/>
+<Scheduler.rateControl            type="double" value="-1"/>
+<Scheduler.k_val                  type="int"    value="1"/>
+<Scheduler.burst_size             type="int"    value="1"/>
+<Scheduler.top_k_spanner_flag     type="bool"   value="F"/>
+<Scheduler.fixed_train_size       type="double" value="1.0"/>
+<Scheduler.num_buckets            type="int"    value="10"/>
+<Scheduler.queue_mon_flag	  type="bool"	value="T"/>
+
+<StreamThread.sched_wake_interval    type="int"    value="1"/>
+
+<StorageMgr.dirPathname           type="string" value="/ltmp/foo/sm"/>
+<StorageMgr.bytesPerPage          type="uint"   value="65536"/>
+<StorageMgr.maxConcurrency        type="uint"   value="100"/>
+<StorageMgr.numPageFrames         type="uint"   value="1000"/>
+
+
+<TraceLogger.output.file             type="string" value=""/>
+<TraceLogger.output.stdout           type="bool"   value="F"/>
+<TraceLogger.output.stderr           type="bool"   value="F"/>
+<TraceLogger.output.lineAfterEntries type="bool"   value="T"/>
+
+<TraceLogger.group.q                 type="bool"   value="F"/>
+<TraceLogger.group.r                 type="bool"   value="F"/>
+<TraceLogger.group.s                 type="bool"   value="F"/>
+<TraceLogger.group.w                 type="bool"   value="F"/>
+<TraceLogger.group.x                 type="bool"   value="F"/>
+<TraceLogger.group.y                 type="bool"   value="F"/>
+<TraceLogger.group.z                 type="bool"   value="F"/>
+<TraceLogger.group.locking           type="bool"   value="F"/>
+<TraceLogger.group.critical.abort    type="bool"   value="F"/>
+
+<TraceLogger.group.LS                type="bool"   value="T"/>
+
+</props>

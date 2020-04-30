@@ -1,0 +1,5 @@
+LOAD_SHEDDER_OBJECTS= \
+	$(LOAD_SHEDDER_BASE_DIR)/src/AccuracyQoS.o \
+	$(LOAD_SHEDDER_BASE_DIR)/src/DropLocations.o \
+	$(LOAD_SHEDDER_BASE_DIR)/src/LSRM.o \
+	$(LOAD_SHEDDER_BASE_DIR)/src/LoadShedder.o

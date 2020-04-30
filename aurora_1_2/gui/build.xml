@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<project name="Aurora Gui" default="build" basedir=".">
+
+   <property file="build.properties"/>
+
+   <property name="petal.path" value="lib/petal.jar"/>
+   <property name="swing.path" value="lib/swing.jar"/>
+   <property name="db.path" value="lib/db.jar"/>
+   <property name="cosmos.path" value="lib/cosmos.jar"/>
+   <property name="classes" value="./classes/"/>
+   <property name="icons" value="./icons/"/>
+   <property name="libraries" value="./lib/"/>
+
+   <property name="javadoc.dir" value="./javadoc/"/>
+
+   <property name="catalog.path" value="./catalog"/>
+
+   <property name="berkeleydb.lib.dir" value="/pro/aurora/linux/BerkeleyDB.4.0/lib"/>
+   <property name="src.zip.dir" value="/u/rly/linux/j2sdk1.4.0_01/src.zip"/>
+
+   <path id="class.path">
+      <fileset dir=".">
+         <include name="${src.zip.dir}"/>
+         <include name="${petal.path}"/>
+         <include name="${swing.path}"/>
+         <include name="${db.path}"/>
+	 <include name="${cosmos.path}"/>
+         <include name="${classes}"/>
+      </fileset>
+   </path>
+
+   <target name="build" description="Compiles all Java files">
+      <mkdir dir="classes"/>
+            <javac debug="true" deprecation="on" destdir="./classes">
+         <src path="."/>
+         <classpath refid="class.path"/>
+      </javac>
+   </target>
+
+   <target name="runverbose" depends="build" description="Runs the java files with verbose
+set to true">
+      <mkdir dir="catalog"/>
+      <echo message="...."/>
+      <java classname="edu.brown.aurora.gui.RootFrame" fork="yes">
+         <classpath>
+            <pathelement path="${src.zip.dir}"/>
+            <pathelement path="${petal.path}"/>
+            <pathelement path="${swing.path}"/>
+            <pathelement path="${db.path}"/>
+            <pathelement path="${cosmos.path}"/>
+            <pathelement path="${classes}"/>
+         </classpath>
+         <jvmarg value="-Djava.library.path=${berkeleydb.lib.dir}"/>
+	 <arg value="-verbose"/>
+         <arg value="-path"/>
+         <arg value="${catalog.path}"/>
+     </java>
+   </target>
+
+   <target name="run" depends="build" description="Runs the java files">
+      <mkdir dir="catalog"/>
+      <echo message="...."/>
+      <java classname="edu.brown.aurora.gui.RootFrame" fork="yes">
+         <classpath>
+            <pathelement path="${src.zip.dir}"/>
+            <pathelement path="${petal.path}"/>
+            <pathelement path="${swing.path}"/>
+            <pathelement path="${db.path}"/>
+   	    <pathelement path="${cosmos.path}"/>
+            <pathelement path="${classes}"/>
+         </classpath>
+	 <jvmarg value="-Djava.library.path=${berkeleydb.lib.dir}"/>
+         <arg value="-path"/>
+         <arg value="${catalog.path}"/>
+     </java>
+   </target>
+
+   <target name="clean"
+           description="Removes all the class files">
+   </target>
+
+   <target name="realclean" depends="clean" description="Removes everything except the source files.">
+     <delete dir="./javadoc"/>
+     <delete includeEmptyDirs="true">
+           <fileset dir="${catalog.path}" includes="**/*"/>
+     </delete>
+   </target>
+
+
+  <target name="jar"
+          depends="build"
+          description="Makes a jar file with all the Aurora gui classes">
+    <copy todir="./classes/edu/brown/aurora/gui">
+	<fileset dir="${icons}"/>
+    </copy>
+    <jar jarfile="gui.jar">
+          <fileset dir="${classes}"/>
+	  <fileset dir="${libraries}"/>
+    </jar>
+  </target>
+
+  <target name="javadoc"
+          description="Creates the javadoc for all the code in the build">
+    <mkdir dir="javadoc"/>
+    <property name="javadoc.verbose" value="false"/>
+    <javadoc packagenames="edu.brown.aurora.gui.*"
+             destdir="javadoc"
+             classpathref="class.path"
+             package="true"
+             use="true"
+             windowtitle="Brown Aurora GUI API Specification"
+             doctitle='&lt;a href="http://www.cs.brown.edu">Brown Computer Science&lt;/a> API Specification'
+             header='&lt;b>Aurora GUI API &lt;/b>&lt;br>&lt;font size="-1">v2.2&lt;/font>'
+             bottom='&lt;font size="-1">&lt;a href="mailto:rly@@cs.brown.edu">Submit a bug or feature&lt;/a>&lt;br>&lt;br>Copyright &#169; 2002 Brown University&lt;br>Providence, RI  02912, U.S.A. All Rights Reserved.&lt;/font>'
+             verbose="${javadoc.verbose}">
+      <sourcepath path="."/>
+  </javadoc>
+  </target>
+
+
+</project>

@@ -1,0 +1,27 @@
+
+1. Run the Aurora Server
+
+aurora/loadgen/daemon/bin/run ls_prop.xml
+// ls_prop.xml must have the right catalog etc. settings
+
+2. Run the Visualizer
+
+aurora/demos/mitre/java -cp mitredemo.jar mitredemo.Visualizer
+// must open up the .cfg file which must contain the port assignments for
+// this demo
+
+3. Run the Performance Monitor
+
+aurora/perf_mon/bin/perf_mon_gui anatolia
+
+4. Send the inputs
+
+aurora/demos/mitre/inputgen/ssend anatolia 16000 data3.dat
+// inputports must have the right port assignments
+
+#aurora/demos/mitre/inputgen/isend anatolia 16000
+#// isendconfig must have the right port assignments
+
+aurora/demos/mitre/visualizer/player.sh
+// to send video
+

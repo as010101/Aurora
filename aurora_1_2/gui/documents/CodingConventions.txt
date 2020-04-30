@@ -1,0 +1,366 @@
+Aurora GUI Coding Conventions
+
+ 1. Any violation to the guide is allowed if it enhances readability. 
+
+ The main goal of the recommendation is to improve readability and thereby the
+ understanding and the maintainability and general quality of the code. It is
+ impossible to cover all the specific cases in a general guide and the programmer
+ should be flexible.
+
+ 2. Names representing types must be nouns and written in mixed case starting with
+ upper case.
+
+ Line, FilePrefix 
+
+ Common practice in the Java development community and also the type naming convention used by
+ Sun for the Java core packages.
+
+ 3. Variable names must be in mixed case starting with lower case. 
+ line, filePrefix 
+
+ Common practice in the Java development community and also the naming convention for
+ variables used by Sun for the Java core packages. Makes variables easy to distinguish
+ from types, and effectively resolves potential naming collision as in the declaration
+ Line line;
+
+ 4. Names representing constants (final variables) must be all uppercase using underscore to
+ separate words.
+
+ MAX_ITERATIONS, COLOR_RED 
+
+ Common practice in the Java development community and also the naming convention used
+ by Sun for the Java core packages.
+
+ In general, the use of such constants should be minimized. In many cases implementing
+ the value as a method is a better choice:
+
+ int getMaxIterations()     // NOT: MAX_ITERATIONS = 25 
+ {
+   return 25;
+ } 
+
+ This form is both easier to read, and it ensures a unified interface towards class
+ values.
+
+ 5. Names representing methods must be verbs and written in mixed case starting with
+ lower case.
+ getName(), computeTotalWidth() 
+
+ Common practice in the Java development community and also the naming convention used
+ by Sun for the Java core packages. This is identical to variable names, but methods
+ in Java are already distinguishable from variables by their specific form.
+
+ 6. Acronyms should not be uppercase when used as name. 
+ exportHtmlSource();    // NOT: exportHTMLSource();
+ openDvdPlayer();       // NOT: openDVDPlayer(); 
+
+ Using all uppercase for the base name will give conflicts with the naming conventions
+ given above. A variable of this type whould have to be named dVD, hTML etc. which
+ obviously is not very readable. Another problem is illustrated in the examples above;
+ When the name is connected to another, the readability is seriously reduced; The word
+ following the acronym does not stand out as it should.
+
+
+ 7. All names should be written in English. 
+ fileName;    // NOT:   filNavn 
+ English is the preferred language for international development. 
+
+
+ 8. Variables with a large scope should have long names, variables with a small scope
+ can have short names [1].
+
+ Scratch variables used for temporary storage or indices are best kept short. A
+ programmer reading such variables should be able to assume that its value is not used
+ outside a few lines of code. Common scratch variables for integers are i, j, k, m, n
+ and for characters c and d.
+
+ 9. The name of the object is implicit, and should be avoided in a method name. 
+ line.getLength();    // NOT:  line.getLineLength(); 
+
+ The latter seems natural in the class declaration, but proves superfluous in use, as
+ shown in the example.
+
+
+ 10. The terms get/set must be used where an attribute is accessed directly. 
+ employee.getName();
+ matrix.getElement (2, 4);
+ employee.setName (name);
+ matrix.setElement (2, 4, value); 
+
+ This is the naming convention for accessor methods used by Sun for the Java core packages. When writing Java beans this convention is actually enforced with public and protected scope. 
+
+
+ 11. is prefix should be used for boolean variables and methods. 
+ isSet, isVisible, isFinished, isFound, isOpen 
+
+ This is the naming convention for boolean methods and variables used by Sun for the Java core packages. When writing Java beans this convention is actually enforced for functions. 
+
+ Using the is prefix solves a common problem of choosing bad boolean names like status or flag. isStatus or isFlag simply doesn't fit, and the programmer is forced to chose more meaningful names. 
+
+ There are a few alternatives to the is prefix that fits better in some situations. These are has, can and should prefixes: 
+
+ bool hasLicense(); 
+ bool canEvaluate(); 
+ bool shouldAbort = false; 
+
+
+ 12. The term compute can be used in methods where something is computed. 
+ valueSet.computeAverage();  matrix.computeInverse() 
+ Give the reader the immediate clue that this is a potential time consuming operation,
+ and if used repeatedly, he might consider caching the result. Consistent use of the
+ term enhances readability.
+
+
+ 13. The term find can be used in methods where something is looked up. 
+ vertex.findNearestVertex();   matrix.findMinElement();  
+ Give the reader the immediate clue that this is a simple look up method with a
+ minimum of computations involved. Consistent use of the term enhances readability.
+
+
+ 14. The term initialize can be used where an object or a concept is established. 
+ printer.initializeFontSet(); 
+ The American initialize should be preferred over the English initialise. Abbreviation
+ init must be avoided.
+
+
+ 15. List suffix should be used on names representing a list of objects. 
+ vertex (one vertex),   vertexList (a list of vertices) 
+ Enhances readability since the name gives the user an immediate clue of the type of
+ the variable and the operations that can be performed on the object.
+
+ Simply using the plural form of the base class name for a list (matrixElement (one
+ matrix element), matrixElements (list of matrix elements)) must be avoided since
+ the two only differ in a single character and are thereby difficult to distinguish.
+
+ A list in this context is the compound data type that can be traversed backwards,
+ forwards, etc. (typically a Vector). A plain array is simpler. The suffix Array can
+ be used to denote an array of objects.
+
+
+ 16. num prefix should be used for variables representing a number of objects. 
+ numPoints, numLines 
+ The notation is taken from mathematics where it is an established convention for
+ indicating a number of objects.
+
+
+ 17. Complement names must be used for complement entities [1]. 
+ get/set, add/remove, create/destroy, start/stop, insert/delete, increment/decrement,
+ old/new, begin/end, first/last, up/down, min/max, next/previous, old/new, open/close,
+ show/hide
+
+ Reduce complexity by symmetry.
+
+
+ 18. Abbreviations in names should be avoided.
+ computeAverage();     // NOT:  compAvg(); 
+ There are two types of words to consider. First are the common words listed in a
+ language dictionary. These must never be abbreviated. Never write:
+
+ cmd   instead of   command
+ cp    instead of   copy
+ pt    instead of   point
+ comp  instead of   compute
+ init  instead of   initialize
+ etc.
+
+ Then there are domain specific phrases that are more naturally known through their
+ acronym or abbreviations. These phrases should be kept abbreviated. Never write:
+
+ HypertextMarkupLanguage  instead of   html
+ CentralProcessingUnit    instead of   cpu
+ PriceEarningRatio        instead of   pe
+ etc. 
+
+ 19. Negated boolean variable names must be avoided. 
+ boolean isError;    // NOT:   isNotError 
+ boolean isFound;    // NOT:   isNotFound 
+
+ The problem arise when the logical not operator is used and double negative arises.
+ It is not immediately apparent what !isNotError means.
+
+
+ 20. Associated constants (final variables) should be prefixed by a common type name. 
+ final int COLOR_RED   = 1;
+ final int COLOR_GREEN = 2;
+ final int COLOR_BLUE  = 3;
+ 
+ This indicates that the constants belong together, and what concept the constants
+ represents.
+
+
+ 21. Exception classes should be suffixed with Exception. 
+ class AccessException
+ {
+   :
+ }
+ Exception classes are really not part of the main design of the program, and naming
+ them like this makes them stand out relative to the other classes. This standard is
+ followed by Sun in the basic Java library.
+
+
+ 22. Functions (methods returning an object) should be named after what they return
+ and procedures (void methods) after what they do.
+
+ Increase readability. Makes it clear what the unit should do and especially all the
+ things it is not supposed to do. This again makes it easier to keep the code clean of
+ side effects.
+
+
+ 23. Java source files should have the extension .java. 
+ Point.java 
+ Enforced by the Java tools. 
+
+
+ 24. Classes should be declared in individual files with the file name matching the
+ class name. Secondary private classes can be declared as inner classes and reside in
+ the file of the class they belong to.  Enforced by the Java tools.
+
+ 25. File content must be kept within 80 columns. 
+ 80 columns is the common dimension for editors, terminal emulators, printers and
+ debuggers, and files that are shared between several developers should keep within
+ these constraints. It improves readability when unintentional line breaks are avoided
+ when passing a file between programmers.
+
+
+ 26. Splitting lines:
+ When splitting lines, only one parameter per line except in the case
+ of semantically connected elements.  For ease of reading, +'s are
+ located after the parameter.
+    e.g.:
+
+    String lines =  a +
+                    b +
+                    c;
+ 27. The package statement must be the first statement of the file. All files should
+ belong to a specific package.
+
+ The package statement location is enforced by the Java language. Letting all files
+ belong to an actual (rather than the Java default) package enforces Java language
+ object oriented programming techniques. 
+
+
+ 28. Class and Interface declarations should be organized in the following manner: 
+
+ 1. Class/interface documentation
+ 2. Class/interface declaration
+ 3. all manifest constants, member variables, and static variables
+ 4. public constructors
+ 5. public methods
+ 6. protected methods
+ 7. private methods
+
+
+ 29. Type conversions must always be done explicitly. Never rely on implicit type
+ conversion.
+
+ floatValue = (float) intValue;  // NOT:  floatValue = intValue;
+
+ By this, the programmer indicates that he is aware of the different types involved
+ and that the mix is intentional.
+
+
+ 30. Variables should be initialized where they are declared and they should be
+ declared in the smallest scope possible.
+
+ This ensures that variables are valid at any time. Sometimes it is impossible to
+ initialize a variable to a valid value where it is declared. In these cases it should
+ be left uninitialized rather than initialized to some phony value.
+
+ However, whether it is declared at the top of the block or immediately before the
+ statement is left to the programmer.
+
+
+ 31. Class variables should never be declared public. 
+ The concept of Java information hiding and encapsulation is violated by public
+ variables. Use private variables and access functions instead. One exception to this
+ rule is when the class is essentially a data structure, with no behavior (equivalent
+ to a C++ struct). In this case it is appropriate to make the class' instance
+ variables public [2].
+
+ Furthermore, all member variables must be declared private. This includes class-wide
+ variables, though clearly not manifest constants (static final).
+
+ 32. Variables should be kept alive for as short a time as possible. 
+ Keeping the operations on a variable within a small scope, it is easier to control
+ the effects and side effects of the variable.
+
+
+ 33. The use of break and continue in loops should be avoided. 
+ These statements should only be used if they prove to give higher readability than
+ their structured counterparts.
+
+ In general break should only be used in case statements and continue should be
+ avoided alltogether.
+
+
+ 34. The conditional should be put on a separate line. 
+ if (done)              // NOT:  if (done) doCleanup();
+   doCleanup(); 
+
+ This is for debugging purposes. When writing on a single line, it is not apparent
+ whether the test is really true or not.
+
+
+ 35. Executable statements in conditionals must be avoided. 
+ file = openFile (fileName, "w");  // NOT:   if ((file = openFile (fileName, "w")) != null) {
+ if (file != null) 
+ {                                 //         :
+   :                               //        }
+ } 
+ Conditionals with executable statements are simply very difficult to read. This is
+ especially true for programmers new to Java.
+
+
+ 36. Block layout should be as illustrated:
+
+ while (!isDone) {
+     doSomething();
+     isDone = moreToDo();
+ }
+
+ 37. Single statement if-else, for or while statements should always enclose their 
+statements within brackets (curly braces).
+
+ if (condition)                            // WRONG
+   statement;
+
+ if (condition)  {                         // CORRECT
+     statement;
+ }
+
+ while (condition)                         // WRONG
+   statement;
+
+ while (condition) {                       // CORRECT
+ 
+     statement;
+ }
+
+
+ 38. Comments should be indented relative to their position in the code. [1] 
+ while (true) {          // NOT:    while (true) {
+   // Do something       //         // Do something
+   something();          //             something();
+ }                       //         } 
+ This is to avoid that the comments break the logical structure of the program. 
+
+
+ 39. Declare arrays as
+
+      int [] someArray;
+
+ not the legacy C style
+
+      int someArray[];
+
+ 40. Each indent level corresponds to four spaces
+
+ 41. Use correct American spelling!
+
+ 42. Files should be editor independent.
+
+ 43. all public things in a class MUST be javadoc'ed
+     all packages must have package-level documentation
+
+ 44. abstract classes that do not extend from another abstract class should be prefixed 
+with 'Generic'

@@ -1,0 +1,264 @@
+/*************************************************************************
+ *    NAME: Akash Hasmukh Parikh
+ *    USER: ahp
+ *    FILE: ImportDelayedData.cpp
+ *    DATE: Fri Apr 25  0:36:11 2003
+ *************************************************************************/
+#include "ImportDelayedData.H"
+#include "NetworkData.H"
+#include "DataManager.H"
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+
+#include <netdb.h>
+#include <stdio.h>
+#include <assert.h>
+#include <pthread.h>
+
+
+#include <vector.h>
+#include <map.h>
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::ImportDelayedData
+ * Parameters: short port
+ * Effects: 
+ *************************************************************************/
+
+ImportDelayedData::ImportDelayedData(short port, char *host)
+{
+  _port = port;
+  _host = std::string(host);
+
+  if((_socket = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+  {
+	perror("Could not make socket");
+  }
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::~ImportDelayedData
+ * Parameters: 
+ * Effects: 
+ *************************************************************************/
+
+ImportDelayedData::~ImportDelayedData()
+{
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::start
+ * Parameters: 
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ImportDelayedData::start()
+{
+  struct hostent *he = NULL;
+  
+  if( NULL == (he = gethostbyname(_host.c_str())))
+  {
+	perror("gethostbyname");
+  }
+
+  struct sockaddr_in addr;
+
+  addr.sin_family = AF_INET;
+  addr.sin_port = htons(_port);
+  addr.sin_addr = *((struct in_addr*)he->h_addr);
+  memset(&addr.sin_zero, 0, 8);
+
+  if(connect(_socket, (struct sockaddr*) &addr, sizeof(struct sockaddr)) < 0)
+  {
+	perror("connect");
+  }
+
+  pthread_t recv_thr;
+
+  /* the same information passed to both string but each needs its own
+   * allocated version */
+  thread_data	*td = new thread_data;
+  td->_idd = this; 
+
+  /* what should we do if the thread create or detach fails */
+  if((pthread_create(&recv_thr, NULL, 
+		  (void* (*)(void*)) &ImportDelayedData::read_socket, (void*) td)))
+  {
+	printf("pthread_create failed read: %i\n", __LINE__);
+  }
+
+  if(pthread_join(recv_thr, 0))
+  {
+	printf("pthread_join failed to join");
+  }
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::read_socket
+ * Parameters: void *arg
+ * Returns: void*
+ * Effects: 
+ *************************************************************************/
+void*
+ImportDelayedData::read_socket(void *arg)
+{
+  thread_data *td = (thread_data*) arg;
+
+  char buf[sizeof(data_packet_t)];
+  vector<double> test_double;
+  vector<float> test_float;
+  map<int, double> test_map;
+
+  while(1)
+  {
+	int bytes_in = recv(td->_idd->_socket, buf, sizeof(buf), 0);
+
+	printf("bytes_in: %d\n", bytes_in);
+
+	assert( ((data_packet_t*) buf)->_type == BOXES_STATS);
+	int key_size = ((map_packet_t*) ((data_packet_t*) buf)->_data)->_key_size;
+	int entry_size = ((map_packet_t*) ((data_packet_t*) buf)->_data)->_entry_size;
+	int elems =((map_packet_t*) ((data_packet_t*) buf)->_data)->_num_entries;
+
+	printf( "key_size: %d  entry_size: %d elements: %d\n", key_size, entry_size, elems);
+
+	char *start = ((map_packet_t*) ((data_packet_t*) buf)->_data)->_data;
+
+	for( int i = 0; i<elems; i++)
+	{
+	  int key = (*((int*) start));
+	  start += key_size;
+	  double elem = (*((double*) start));
+	  start += entry_size;
+
+	  test_map[key] = elem;
+	}
+
+  for(map<int,double>::iterator i = test_map.begin();
+	  i != test_map.end();
+	  i++ )
+  {
+	printf("map[%i] = %f\n", i->first, i->second);
+  }
+
+#if 0
+	printf("bytes_in: %d\n", bytes_in);
+
+	assert( ((data_packet_t*) buf)->_type == BOXES_STATS);
+	int step = ((vector_packet_t*) ((data_packet_t*) buf)->_data)->_type_size;
+	int elems =((vector_packet_t*) ((data_packet_t*) buf)->_data)->_num_entries;
+
+	printf( "type_size: %d  elements: %d\n", step, elems);
+
+	char *start = ((vector_packet_t*) ((data_packet_t*) buf)->_data)->_data;
+
+	for( int i = 0; i<elems; i++)
+	{
+	  test_double.push_back( *((double*) start));
+	  start += step;
+	}
+
+	for( int i = 0; i<elems; i++)
+	{
+	  printf("test_double[%d]: %f\n", i, test_double[i]);
+	}
+
+	bytes_in = recv(td->_idd->_socket, buf, sizeof(buf), 0);
+
+	printf("bytes_in: %d\n", bytes_in);
+
+	assert( ((data_packet_t*) buf)->_type == LOADSHEDDER_CURVE);
+	step = ((vector_packet_t*) ((data_packet_t*) buf)->_data)->_type_size;
+	elems =((vector_packet_t*) ((data_packet_t*) buf)->_data)->_num_entries;
+
+	printf( "type_size: %d  elements: %d\n", step, elems);
+
+	start = ((vector_packet_t*) ((data_packet_t*) buf)->_data)->_data;
+
+	for( int i = 0; i<elems; i++)
+	{
+	  test_float.push_back( *((float*) start));
+	  start += step;
+	}
+
+	for( int i = 0; i<elems; i++)
+	{
+	  printf("test_float[%d]: %f\n", i, test_float[i]);
+	}
+#endif
+	break;
+  }
+
+  delete td;
+  return NULL;
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::write_socket
+ * Parameters: void *arg
+ * Returns: void*
+ * Effects: 
+ *************************************************************************/
+void*
+ImportDelayedData::write_socket(void *arg)
+{
+  return NULL;
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::read_boxes_stats
+ * Parameters: int socket, map<int,BoxStats> &boxStats
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ImportDelayedData::read_boxes_stats(int socket, map<int,BoxStats> &boxStats)
+{
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::read_input_arcs
+ * Parameters: int socket, map<int, InputArcsStats> &inputArcs
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ImportDelayedData::read_input_arcs(int socket, map<int, InputArcsStats> &inputArcs)
+{
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::read_app_arcs
+ * Parameters: int socket, map<int, AppArcStats> &appArcs
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ImportDelayedData::read_app_arcs(int socket, map<int, AppArcStats> &appArcs)
+{
+}
+
+
+/*************************************************************************
+ * Function Name: ImportDelayedData::read_load_shedder
+ * Parameters: int socket , LoadShedderCurve &curve
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ImportDelayedData::read_load_shedder(int socket , LoadShedderCurve &curve)
+{
+}
+
+

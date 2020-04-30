@@ -1,0 +1,287 @@
+/*************************************************************************
+ *    NAME: Akash Hasmukh Parikh
+ *    USER: ahp
+ *    FILE: ExportDelayedData.cpp
+ *    DATE: Wed Apr 23  2:25:10 2003
+ *************************************************************************/
+#include "ExportDelayedData.H"
+#include "NetworkData.H"
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+#include <vector.h>
+#include <map.h>
+#include <time.h>
+
+/*************************************************************************
+ * Function Name: ExportDelayedData::ExportDelayedData
+ * Parameters: short port_num, int backlog
+ * Effects: 
+ *************************************************************************/
+
+ExportDelayedData::ExportDelayedData(short port, int backlog)
+{
+  _port = port;
+  _backlog = backlog;
+
+  if((_socket = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+  {
+	perror("Could not make socket");
+  }
+
+  srand48(time(NULL));
+}
+
+
+/*************************************************************************
+ * Function Name: ExportDelayedData::~ExportDelayedData
+ * Parameters: 
+ * Effects: 
+ *************************************************************************/
+
+ExportDelayedData::~ExportDelayedData()
+{
+}
+
+
+/*************************************************************************
+ * Function Name: ExportDelayedData::start
+ * Parameters: 
+ * Returns: void
+ * Effects: 
+ *************************************************************************/
+void
+ExportDelayedData::start()
+{
+  struct sockaddr_in	addr;
+  int yes = 1;
+
+  if(setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) < 0)
+  {
+	perror("Socket Option");
+  }
+
+  /* generate the address struct to bind to */
+  addr.sin_family 	= AF_INET;
+  addr.sin_port		= htons(_port);
+  addr.sin_addr.s_addr	= INADDR_ANY;
+  memset(&addr.sin_zero, 0, 8);
+
+  if(bind(_socket, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+  {
+	perror("Couldn't bind");
+  }
+
+  if(listen(_socket, _backlog))
+  {
+	perror("Couldn't listen");
+  }
+
+  while(1)
+  {
+	int new_socket;
+	struct sockaddr_in	in_addr;
+	int in_addr_size = sizeof(struct sockaddr_in);
+	pthread_t read_thr, write_thr;
+
+	if((new_socket = accept(_socket, (struct sockaddr*) &in_addr, (socklen_t*)&in_addr_size)) < 0)
+	{
+	  perror("Couldnt accept");
+	  continue;
+	}
+
+	/* the same information passed to both string but each needs its own
+	 * allocated version */
+	thread_data	*tdr = new thread_data;
+	thread_data	*tdw = new thread_data;
+
+	tdr->_edd = tdw->_edd = this; 
+	tdr->_connected_socket = tdw->_connected_socket = new_socket;
+
+	/* what should we do if the thread create or detach fails */
+	if((pthread_create(&read_thr, NULL, 
+			(void* (*)(void*)) &ExportDelayedData::read_socket, (void*) tdr)))
+	{
+	  printf("pthread_create failed read: %i\n", __LINE__);
+	  continue;
+	}
+
+	if((pthread_detach(read_thr)))
+	{
+	  printf("pthread_detach failed read: %i\n", __LINE__);
+	}
+
+	if((pthread_create(&write_thr, NULL, 
+			(void* (*)(void*)) &ExportDelayedData::write_socket, (void*) tdw)))
+	{
+	  printf("pthread_create failed write: %i\n", __LINE__);
+	  continue;
+	}
+
+	if((pthread_detach(write_thr)))
+	{
+	  printf("pthread_detach failed write: %i\n", __LINE__);
+	}
+  }
+}
+
+
+/*************************************************************************
+ * Function Name: ExportDelayedData::read_socket
+ * Parameters: void *arg
+ * Returns: void *
+ * Effects: 
+ *************************************************************************/
+void *
+ExportDelayedData::read_socket(void *arg)
+{
+  thread_data *td = (thread_data*) arg;
+  char buf[1024];
+
+  while(1)
+  {
+	int bytes_in;
+	if((bytes_in = recv(td->_connected_socket, buf, sizeof(buf), 0)) < 0)
+	{
+	  perror("recv:");
+	}
+	
+	/* if hte bytes_in values is zero then the connection was closed */
+	if(!bytes_in)
+	  break;
+
+	buf[bytes_in] = 0;
+	printf("clients says: %s\n", buf);
+  }
+
+  /* storage for the thread_data is allocated by the parent thread, but we were
+   * detached, so we need to free it */
+  delete td;
+  return NULL;
+}
+
+
+/*************************************************************************
+ * Function Name: ExportDelayedData::write_socket
+ * Parameters: void *arg
+ * Returns: void *
+ * Effects: 
+ *************************************************************************/
+void *
+ExportDelayedData::write_socket(void *arg)
+{
+  thread_data *td = (thread_data*) arg;
+
+  /* test code test code test code */
+  vector<double> dub_vec;
+  vector<float>	flot_vec;
+  map<int, double> dub_map;
+
+  printf("size of map: %i\n", sizeof(dub_map));
+
+  for(int i=0; i<35; i++)
+  {
+	dub_map[((int) (drand48()*1000))] = drand48()*300;
+  }
+
+  for(map<int,double>::iterator i = dub_map.begin();
+	  i != dub_map.end();
+	  i++ )
+  {
+	printf("map[%i] = %f\n", i->first, i->second);
+  }
+  /* 
+  for(int i=0; i< 35; i++)
+  {
+	dub_vec.push_back(drand48()*20);
+	flot_vec.push_back(drand48()*20);
+  }
+  */
+
+
+
+  /*
+  for(int i=0; i< 35; i++)
+  {
+	printf("dub_vec[%d]: %f\n", i, dub_vec[i]);
+  }
+
+  for(int i=0; i< 35; i++)
+  {
+	printf("flot_vec[%d]: %f\n", i, flot_vec[i]);
+  }
+  */
+
+//  printf("size of vector: %i\n", sizeof(dub_vec));
+
+  int key_size = sizeof((dub_map.begin())->first);
+  int entry_size = sizeof((dub_map.begin())->second);
+
+  char array[sizeof(data_packet_t)+ sizeof(map_packet_t) + (key_size+entry_size)*dub_map.size()]; 
+  ((data_packet_t*) array)->_type = BOXES_STATS;
+  ((map_packet_t*) ((data_packet_t*) array)->_data)->_key_size = key_size;
+  ((map_packet_t*) ((data_packet_t*) array)->_data)->_entry_size = entry_size;
+  ((map_packet_t*) ((data_packet_t*) array)->_data)->_num_entries = dub_map.size();
+
+  char *ptr = ((map_packet_t*) ((data_packet_t*) array)->_data)->_data;
+  for(map<int,double>::iterator i = dub_map.begin();
+	  i != dub_map.end();
+	  i++ )
+  {
+	memcpy(ptr, (char*) &(i->first), key_size);
+	ptr += key_size;
+	memcpy(ptr, (char*) &i->second, entry_size);
+	ptr += entry_size;
+  }
+
+  send(td->_connected_socket, array, sizeof(array), 0);
+
+#if 0
+  char array[sizeof(dub_vec[0])*dub_vec.size() + sizeof(data_packet_t) + sizeof(vector_packet_t)];
+
+  ((data_packet_t*) array)->_type = LOADSHEDDER_CURVE;
+  ((vector_packet_t*) ((data_packet_t*) array)->_data)->_type_size = sizeof(dub_vec[0]);
+  ((vector_packet_t*) ((data_packet_t*) array)->_data)->_num_entries = dub_vec.size();
+  memcpy(((vector_packet_t*) ((data_packet_t*) array)->_data)->_data, &dub_vec[0], sizeof(dub_vec[0])*dub_vec.size());
+
+  send(td->_connected_socket, array, sizeof(array), 0);
+
+  char array2[sizeof(flot_vec[0])*flot_vec.size() + sizeof(data_packet_t) + sizeof(vector_packet_t)];
+
+  ((data_packet_t*) array2)->_type = LOADSHEDDER_CURVE;
+  ((vector_packet_t*) ((data_packet_t*) array2)->_data)->_type_size = sizeof(flot_vec[0]);
+  ((vector_packet_t*) ((data_packet_t*) array2)->_data)->_num_entries = flot_vec.size();
+  memcpy(((vector_packet_t*) ((data_packet_t*) array2)->_data)->_data, &flot_vec[0], sizeof(flot_vec[0])*flot_vec.size());
+
+  send(td->_connected_socket, array2, sizeof(array2), 0);
+#endif
+
+  while(1)
+  {
+
+	/* */
+	sleep(5);
+
+	if(-1 == send(td->_connected_socket, buf, strlen(buf), 0))
+	{	
+	  perror("send");
+	  break;
+	}
+
+  }
+
+  /* storage for the thread_data is allocated by the parent thread, but we were
+   * detached, so we need to free it */
+  delete td;
+  return NULL;
+}
+
+

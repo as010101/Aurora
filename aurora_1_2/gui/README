@@ -1,0 +1,77 @@
+================================================================
+Using ant under solaris
+=================================================================
+Ant is equivalent to a make, except that it does not require 
+explicitly naming each file, and it only requires one "Makefile" 
+called build.xml. 
+
+Please refer to http://jakarta.apache.org/ant for details.
+
+
+1. Set your path to:
+
+     /pro/aurora/tools/solaris/ant/bin:$PATH
+
+2. Set your classpath to:
+
+     /pro/aurora/tools/solaris/java/src.zip:/pro/aurora/tools/solaris/ant/lib/ant.jar:$CLASSPATH
+
+In the aurora directory, there should be a file called build.xml.  To
+obtain a list of commands, type
+
+     ant -projecthelp
+
+at the command line and all of the targets should be described.  
+To run the gui, type:
+  
+     ant run
+
+as described under the -projecthelp flags.  Note that targets that 
+are dependant on other targets will automatically run the targets 
+that they are dependant on.  For example, if the classes are not 
+up-to-date, 'ant run' will automatically run 'ant build' first.
+
+Calling 'ant' from this directory will compile all of the java
+source files recursively.
+
+================================================================
+Using jikes under solaris
+================================================================
+Jikes is a java compilation tool that runs many, many times faster
+than javac.  
+
+1. To set up Jikes for ant, set your path to:
+
+     /pro/aurora/tools/solaris/jikes/src/:$PATH
+
+2. And copy the build.properties.sample file into build.properties:
+
+    cp build.properties.sample build.properties
+
+================================================================
+linux usage notes
+================================================================
+All of the tools that we use default to the solaris configuration.
+To use linux, follow the above steps, and then make the following 
+changes need to be made:
+
+1. (for ant) set the JAVA_HOME to:
+
+     /pro/aurora/tools/linux/java
+
+2. (for jikes) instead of setting your path to 
+/pro/aurora/tools/solaris/jikes/src as stated above, set it to:
+
+     /pro/aurora/tools/linux/jikes/src:$PATH
+  
+3. If you haven't done so already, copy the build.properties.sample
+file into build.properties just like above.
+
+4. Comment out the lines under 
+	## values for solaris 
+and comment in the lines under 
+	## values for linux
+
+================================================================
+
+Comments? Questions?  Email: rly@cs.brown.edu

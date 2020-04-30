@@ -1,0 +1,63 @@
+#
+# File: README_LATEX
+# Author: Adam Singer <arsinger>
+# Date: 20 June 2002
+#
+
+Making a LaTeX file:
+    The best method is to simply copy a previous LaTeX file rather than to start
+    one from scratch. See the README_LATEX.tex for an example.
+
+    With this, you will be all set to insert your own formatted text.
+
+Special tags:
+    In the README_LATEX.tex file, there are several tags of note:
+
+    \newcommand: This is the subtitle of the header across each page
+    \def\@oddhead: This is what appears across the top of the page
+
+    \section*{}: Section titles
+
+    \begin{enumerate}: Start of a numbered list
+    \end{enumerate}: End of a numbered list
+    \begin{itemize}: Start of an unnumbered list
+    \end{itemize}: End of an unnumbered list
+
+    \item: A list item for either list
+
+Normal text:
+    Simple type the text in. If you want to start a new paragraph, use two
+    returns to make it clear to a reader of the tex file that you have started a
+    new paragraph. LaTeX automatically formats for you.
+
+Generating a *.ps file:
+   You need to convert the *.tex file to a *.dvi file, and from the *.dvi file
+   to a *.ps file. And you don't want too many intermediary files hanging around
+   afterwards, so we use the -c option. The -o "" option is to make sure we
+   output to a file rather than print.
+   Use: 
+   (1) texi2dvi4a2ps -c [filename].tex
+   (2) dvips -o "" [filename].dvi
+
+   This can also be achieved by writing:
+   texi2dvi4a2ps -c [filename].tex ; dvips -o "" [filename].dvi
+
+   As this is quite annoying to type, I have written a quick script:
+   /u/arsinger/bin/tex2ps
+   which takes just the first part of the name (not the .tex part) as a
+   variable. Also, it should be able to handle multiple files at a time.
+
+   So if you want to PSify:
+   my_tex_file.tex another_tex.tex joe.tex
+   you would use:
+   /u/arsinger/bin/tex2ps my_tex_file another_tex joe
+   and should get:
+   my_tex_file.ps another_tex.ps joe.ps
+   with the original files still there, no intermediary files, and only
+   my own personal signature output. All the rest of the junk should be gone.
+   Go me!
+
+Questions? Problems?
+    E-mail arsinger@cs.brown.edu
+    While I certainly don't know everything about LaTeX, I'm learning and may be
+    able to help out.

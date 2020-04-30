@@ -1,0 +1,14 @@
+240	: number of rows in one image
+352     : number of columns in one image
+3	: bytes/pixel
+
+1	: row/tuple
+200	: images/minute
+
+3	: delay
+5       : input port
+
+1.raw
+2.raw
+3.raw
+4.raw

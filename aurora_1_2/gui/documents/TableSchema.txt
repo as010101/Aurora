@@ -1,0 +1,140 @@
+Our proposal for the box table schema:
+
+After some thought, we're proposing that all of the tables are collapsed into
+one table instead of several tables (one for each type of box).  We've decided
+that the complexity of having box-specific tables and argument-specific tables
+does not give us an advantage over having one table that describes the
+modifier.  Another advantage is that, to retrieve the modifer for a box, we
+only need to search for one entry in the boxTable instead of querying for
+several entries.  We leave it to the parser to handle each of the clauses
+within the modifer.
+
+However, we have an extra table for the ports to allow us to store and retrieve
+the types that are assigned to different ports for each box.
+
+Note that the order of the column names are relevant to storage and retrieval.
+
+=================================================================
+Type values
+
+public static int UNDEFINED_TYPE = 0;
+public static int INTEGER = -1;
+public static int FLOAT = -2;
+public static int DOUBLE = -3;
+public static int STRING = -4;
+public static int BOOL = -5;
+public static int TIMESTAMP = -6;
+
+// note: all primitive types have values < 0, 
+// all composite types have values > 0.
+
+public static String INTEGER_NAME = "integer";
+public static String FLOAT_NAME = "float";
+public static String DOUBLE_NAME = "double";
+public static String STRING_NAME = "string";
+public static String BOOL_NAME = "bool";
+public static String TIMESTAMP_NAME = "timestamp";
+
+public static int INTEGER_SIZE = 4;
+public static int FLOAT_SIZE = 4;
+public static int DOUBLE_SIZE = 8;
+public static int STRING_SIZE = -1;
+public static int BOOL_SIZE = 1;
+public static int TIMESTAMP_SIZE = 8;
+
+
+Name			type		notes
+
+=================================================================
+Table CompositeType     file:"CompositeType.db"
+
+typeId			int
+typeName		String		variable-length
+numberOfFields		int
+isInferred		int		for gui only
+
+=================================================================
+Table TypeField         file:"TypeField.db"
+
+typeId			int		value > 0 (check above)
+fieldIndex		int
+fieldName		String		variable-length
+fieldType		int		value < 0 (check above)
+size                    int
+offset			int
+
+=================================================================
+Table BoxTable:         file:"BoxTable.db"
+
+boxId			int
+boxType			int
+label			String		variable-length
+description             String          variable-length, 
+                                        relevant only to gui
+modifier		String		variable-length,
+					predicates, functions, aggregates, etc.
+parentId		int		relevant only to gui
+cost			float		relevant to scheduler
+selectivity		float		relevant to scheduler
+useDefinedTypes         int             relevant only to gui
+outputDefinedTypes	int		relevant only to gui
+x			int		relevant only to gui
+y			int		relevant only to gui
+width			int		relevant only to gui
+height			int		relevant only to gui
+
+=================================================================
+Table PortTable         file:"PortTable.db"
+
+boxId			int
+portIndex		int		starts at 0 for first port
+typeId			int
+portType 		int	    	(0 == input, 1 == output)
+
+=================================================================
+Table ArcTable          file:"ArcTable.db"
+
+id			int
+rate			float
+typeId			int
+sourceNodeId		int
+targetNodeId		int
+sourcePortIndex		int
+targetPortIndex		int
+cpFlag			int
+parentId		int
+
+
+=================================================================
+Box values
+
+FILTER = 0
+MAP = 1
+TUMBLE = 2
+SLIDE = 3
+XSECTION = 4
+WSORT = 5
+RESTREAM = 6
+UNION = 7
+RESAMPLE = 8
+JOIN = 9
+DROP = 10
+SUPERBOX = 11				relevant only to gui
+INPUTPORT = 12                          relevant only to gui/scheduler
+OUTPUTPORT = 13                         relevant only to gui/scheduler
+
+=================================================================
+
+note:  we're also considering storing a processed modifier in boxTable which
+contains the meta data for the attributes instead of user-specified names.  For
+example, left.A can be stored as [0:0:4:8:3] specified by:
+
+[<boxId>:<portIndex>:<primitive typeId>:<size of attribute>:<offset>]
+
+(for specifics on this, please contact Jeong-Hyon (jhhwang@cs.brown.edu))
+
+If you'd like, we can store this information as another attribute of boxTable
+to make processing easier.
+
+
+

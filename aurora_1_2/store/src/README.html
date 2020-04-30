@@ -1,0 +1,204 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; Linux 2.4.8-26mdk i686) [Netscape]">
+   <meta name="Author" content="Christian Convey">
+   <title>Building and Running IOLIB</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EF" vlink="#59188E" alink="#FF0000">
+
+<h1>
+Building and Using IOLIB</h1>
+Christian Convey, <a href="mailto:cjc@cs.brown.edu,">cjc@cs.brown.edu,</a>
+Sept. 3, 2002.
+<br>&nbsp;
+<h2>
+Building IOLIB</h2>
+I&nbsp; haven't done much with Makefiles before, so my approaches may be
+pretty unorthodox. If something looks done strangely to you, don't immediately
+assume I had a good reason for doing it in a non-standard way.
+<ol>
+<li>
+Untar the source code. The top-level directory produced by the tarfile
+is "sm/". We'll refer to the parent directory of "sm/" as <i>tar-directory</i>.</li>
+
+<li>
+Edit the file <i>tar-directory</i>/sm/src/makedefs.mk, as follows:</li>
+
+<ul>
+<li>
+Modify the PROJBASE variable to = <i>tar-directory</i>/sm/src</li>
+
+<li>
+Modify the TARGETBASE variable to = <i>tar-directory</i>/sm</li>
+</ul>
+
+<li>
+cd to <i>tar-directory</i>/sm/src</li>
+
+<li>
+run make</li>
+</ol>
+If all goes well, you should see the directory <i>tar-directory</i>/bin/
+populated with <i>valid</i> symbolic links to a set of test/benchmark programs.
+<br>&nbsp;
+<h3>
+Tools versions</h3>
+I've only tried building this in my local environment, which has the following
+relevant versions:
+<ul>
+<li>
+Intel Celeron A 300MHz processor</li>
+
+<li>
+Mandrake Linux 8.0, with kernel version 2.4.8-26mdk</li>
+
+<li>
+g++ 3.1.1</li>
+</ul>
+
+<h2>
+Packages</h2>
+I did choose to break the code into "packages", to keep the complexity
+of code from getting overwhelming. The packages are as follows:
+<ul>
+<li>
+<b>common</b> The "common" package has all of the code that I figured wasn't
+Storage Manager specific. I pulled such code into a separate package mostly
+to keep myself from being overwhelmed by having too much code to consider
+at one time.</li>
+
+<li>
+<b>iolib</b> This has the code for interfacing with the file system. If
+you look at the code strucutre diagram that I handed out in August 2002,
+this covers everything from the bottom of the diagram up through the AsynchPageDir
+class.</li>
+
+<li>
+<b>sm</b> This is where I figured I'd put the remainder of the Storage
+Manager's code. However, since I never got to implement it, this package
+is empty.</li>
+</ul>
+
+<h2>
+Directory Structure</h2>
+Like I said earlier - I may have done some things oddly out of ignorance.
+There's nothing sacred about how I approached this.
+<br>&nbsp;
+<ul>
+<li>
+<b>sm/bin/</b> This is where the programs exported by the Storage Manager
+code belong. This includes not only whatever interesting utilities we might
+dream up, but also unit tests and benchmark programs for the various internal
+components of hte Storage Manager.</li>
+
+<li>
+<b>sm/include/</b> This is where we give the header files for all the code
+that the Storage Manager shares with the outside world. This includes the
+helper classes / functions that aren't specific to the Storage Manager,
+which which I still thought other parts of the Aurora system might like
+to use. There should probably be one .H file here for each .o file that
+appears in the directory <i>sm/obj/</i>.</li>
+
+<li>
+<b>sm/lib/</b> This is where I intended the library containing the Storage
+Manager's code to appear. It's currently empty because I never worked out
+how I wanted to produce the library(ies).</li>
+
+<li>
+<b>sm/obj/</b> This directory can probably go away if you ever produce
+a library containing the Storage Manager's code. This contains all of the
+.o files from all of the packages in the Storage Manager. If you have the
+Storage Manager ship as a library, no one would need the .o files that
+appear in this directory.</li>
+
+<li>
+<b>sm/src/</b> The root of the directory tree containing all of the source
+code and header files for the Storage Manager.</li>
+
+<li>
+<b>sm/src/common/cpp/</b> .C / Makefile files for the "common" package.</li>
+
+<li>
+<b>sm/src/common/include/</b> Header files for the "common" package that
+are needed by those trying to use the "common" package's exposed functionality.</li>
+
+<li>
+<b>sm/src/common/int_include/</b> Header files for the "common" package
+that are purely for internal use, and aren't needed by those trying to
+use the package's exposed functionality.</li>
+
+<li>
+<b>sm/src/iolib/cpp/ </b>.C / Makefile files for the "iolib" package.</li>
+
+<li>
+<b>sm/src/iolib/include/ </b>Header files for the "iolib" package that
+are needed by those trying to use the "iolib" package's exposed functionality.</li>
+
+<li>
+<b>sm/src/iolib/int_include/ </b>Header files for the "iolib" package that
+are purely for internal use, and aren't needed by those trying to use the
+package's exposed functionality.</li>
+
+<li>
+<b>sm/src/sm/...</b> The directory tree that was to contain all of the
+code for the remained of the Storage Manager implementation. You can ignore
+the content of this directory and structure it however you want.</li>
+</ul>
+
+<h2>
+The API</h2>
+There are two useful interfaces into the IOLIB, depending on whether or
+not you want to deal with an asynchronous interface.
+<br>&nbsp;
+<h3>
+PageDir</h3>
+If you want just a simple synchronous interface where you have to be cautious
+about what kinds of concurrency you cause, use the class t<i>ar-directory</i>/sm/src/iolib/int_include/PageDir.H.
+The file is in the <i>int_include</i> directory because I don't presently
+consider it to be part of the exposed API from the <i>iolib</i> package.
+However, to make it exposed, here are the steps:
+<ol>
+<li>
+Move it from the <i>tar-directory</i>/sm/src/iolib/int_include/ directory
+to the <i>tar-directory</i>/sm/src/iolib/include/ directory.</li>
+
+<li>
+Modify all of the #include commands in the project's .H / .C files that
+expect the file to be in its old directory, to instead get it in the new
+directory.</li>
+
+<li>
+Add a symbolic link to the file, in the directory <i>tar-directory</i>/sm/include/.</li>
+</ol>
+To see how to use the PageDir class, read its .H file and examine the source
+code of its unit test program.
+<br>&nbsp;
+<h3>
+AsynchPageDir</h3>
+This class adds several bits of functionality on top of PageDir, which
+I thought would be well suited to supporting the buffer cache:
+<ul>
+<li>
+<b>Queued commands.</b> This would let there be just one thread in the
+buffer cache, and it could alternate between formulating/enqueueing new
+I/O commands and deqeueuing/processing completed I/O commands.</li>
+
+<li>
+<b>Automatic file growth.</b> If the page files used by the PageDir are
+getting pretty close to full, it's a good bet they'll need to grow soon.
+Since growing a page file doesn't necessarily conflict with performing
+read/wite operations on that file, it's good to predictively kick off a
+growth operation before the space is needed.</li>
+</ul>
+Of course, since I never implemented the pieces of software that would
+actually use the AsynchPageDir, it remains unproven that the AsynchPageDir's
+complexity is even needed. Perhaps the PageDir class is all that the rest
+of the Storage&nbsp;Manager needs for its disk I/O.
+<p>To see how to use the AsynchPageDir class, read its .H file and examine
+the source code of its unit test / benchmark programs.
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

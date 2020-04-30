@@ -1,0 +1,29 @@
+README ON HOW TO RUN THIS THING, based on email sent to Don...
+
+Contact: eddie@cs.brandeis.edu
+
+1,2) [obsolete instructions]
+3) untar in some random empty directory, fidelity-demo-tarball.tar.gz, a
+self contained tarball of all demo files
+4) edit both .xml files for the catalog directory to be correct (points
+to FIDNETWORKMOD)
+4) ./run or ./run-fidvisual (latter has that alarm monitor, must be run
+with config-qmon.xml
+  -- if running queuemon, HIT THE START BUTTON
+5) ./controller s.cng
+6) ./wlgen localhost 40000
+     then type "b s", enter. If using queuemon, you should see queues
+0,1,2,3 have input.
+7) output queues to look at: 13,24,26,29. 13 = "alarms for reuters", 24
+for nyse, 26 for nasdaq, 29 for comstock
+8) in controller:
+   "daf R" to damage reuters, "daf C" for comstock. Then you give a drop
+percentage, like "cap 0.8" means 80% drop from that feed. Observe
+output. (daf R, cap 0.8, eventually queues 13 gets alarms, and for every
+alarm in 13, you get one in either 24 or 26 obviously. No output on 29).
+Or use the visualizer to see little flashing yellow/red alarms.
+
+
+NOTE: the "runner" directory used to be able to generate "./run" but I suggest you ignore that 
+unless you HAVE TO. There's also runner2 and workload, that may interest you.
+

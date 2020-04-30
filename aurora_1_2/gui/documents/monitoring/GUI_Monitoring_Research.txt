@@ -1,0 +1,94 @@
+Commnication:
+
+JNI-
+    Any application containing native methods is platform dependent and not
+    Write Once Run Anywhere(TM). This is true regardless of whether NMI or JNI
+    is used. Applets cannot be affected by a change in native method support.
+
+    http://www.acm.org/crossroads/xrds4-2/jni.html (useful info on how to use
+    JNI... makes it seem like we could be done fairly easily once i understand
+    JNI)
+
+SleepyCat-
+    Easy java interface... looks like a standard database.
+    already have code, accessible from remote machines
+
+--------------
+
+Display:
+Graphics2D- need to "setPaint" and pass in a java.awt.Color (r,g,b) (either
+using floats from 0.0-1.0 or ints from 0-255)
+
+Do so before the draw call in GenericArc to draw the arc_path
+
+May have to turn the color setup method back on... check that
+
+Refresh- **
+ Workspace
+ |-Editor
+   |-Model
+     |-SuperBox
+       |-SuperBoxNode (is a model)
+       |-parentModel (who opened it... null for first one)
+ Workspace as a "update" method which looks like it will redraw
+
+ Plan-
+    1) Get all colors of inputs/outputs from database
+    2) Scan through all Arcs and setColor(java.awt.Color) on them
+    3) Start with Root Editor
+    4) DFS scan through, telling all isVisible Editors to update
+
+--------------
+
+Workflow Generator:
+-need dialog to set levels **
+-need to write out to database
+
+Workflow Generator Data
+
+Aggregate Stream
+|-Stream(s)
+| |-ID
+| |-Field(s)
+| | |-ID
+| | |-Type (int, float, etc.)
+| | |-Variance (random walk, const, etc.)
+| |   |-Parameters (...)
+| |-Rate (periodic, distributed)
+|   |-Parameters (...)
+|-Num Tuples (-1 = infinity)
+
+GUI Representation
+
+FieldSet
+|-Field(s)
+| |-ID (name)
+| |-Type (int, float, etc.)
+| |-Variance (random walk, const, etc.)
+| | |-Parameters
+| |-Rate (periodic, distributed)
+|-Num Tuples
+|-Num Streams
+|-InputPortNodes (with indication of which streams to which nodes)
+
+Current Type System (to be used either as a basis, or as superclasses)
+
+TypeManager
+|-Composite Type(s)
+| |-Name
+| |-Attribute(s)
+|   |-Name
+|   |-Type
+|   |-Length
+|-Primitive Type(s)
+  |-Name
+  |-(Length) for Fixed Length primitives
+
+--------------
+
+current project- 
+
+*understanding database info
+*writing to database (workflow)
+*reading from database (monitoring)
+*dialog to set workflow levels
